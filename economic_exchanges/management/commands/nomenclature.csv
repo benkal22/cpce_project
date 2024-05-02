@@ -1,4 +1,4 @@
-CODE_SECTEUR;LIBELLE_SECTEUR;CODE_ACTIVITE;LIBELLE_ACTIVITE;CODE_PRODUIT;LIBELLE_PRODUIT
+sector_code;sector_label;activity_code;activity_label;product_code;product_label
 A;AGRICULTURE, SYLVICULTURE, PÊCHE;A010101;Cultures de céréales  ;A01010101;Blé  
 A;AGRICULTURE, SYLVICULTURE, PÊCHE;A010101;Cultures de céréales  ;A01010102;Maïs 
 A;AGRICULTURE, SYLVICULTURE, PÊCHE;A010101;Cultures de céréales  ;A01010103;Riz paddy  

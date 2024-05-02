@@ -1,6 +1,6 @@
 from typing import Any
 from django.core.management.base import BaseCommand
-from django.utils import timezone
+from ...models import Product
 
 import pandas as pd
 from sqlalchemy import create_engine
@@ -35,12 +35,23 @@ class Command(BaseCommand):
 
         
         #Connexion à la bd existente
-        db_engine = create_engine('sqlite:///db.sqlite3')
+        # db_engine = create_engine('sqlite:///db.sqlite3')
         # db_engine = create_engine('sqlite:///'.db_file_path)
         
         #Ecriture des données dans une nouvelle table dans la base de données existante
-        data.to_sql('db', db_engine, index=False, if_exists='append')
+        # data.to_sql('db', db_engine, index=False, if_exists='append')
         
+        # Parcourir les lignes du DataFrame et créer des instances de BusinessSector
+        for index, row in data.iterrows():
+            product = Product(
+                sector_code = row['sector_code'],
+                sector_label = row['sector_label'],
+                activity_code = row['activity_code'],
+                activity_label = row['activity_label'],
+                product_code = row['product_code'],
+                product_label = row['product_label'])
+            product.save()
+
         # self.stdout.write(path_file)
         self.stdout.write(self.style.SUCCESS('Données importées avec succès depuis Excel vers la base de données'))
 

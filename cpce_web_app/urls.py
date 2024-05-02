@@ -20,6 +20,7 @@ from economic_exchanges import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('product/', views.product_home),
     path('producer/', views.producer_home),
     path('supplier/', views.supplier_home),
     path('customer/', views.customer_home),

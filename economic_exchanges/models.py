@@ -9,8 +9,8 @@ class Product(models.Model):
     activity_label = models.fields.CharField(max_length=150)
     product_code = models.fields.CharField(max_length=20)
     product_label = models.fields.CharField(max_length=150)
-    # def __str__(self) -> str:
-    #     return self.product_code
+    def __str__(self) -> str:
+        return f'{self.product_label}'
 
 #Producer model
 class Producer(models.Model):
@@ -19,54 +19,61 @@ class Producer(models.Model):
     company_name = models.fields.CharField(max_length=100)
     manager_name = models.fields.CharField(max_length=100)
     addresse = models.fields.CharField(max_length=255)
-    tax_code = models.fields.CharField(max_length=100)
-    nrc = models.fields.CharField(max_length=100)
-    nat_id = models.fields.CharField(max_length=100)
-    email = models.fields.CharField(max_length=100)
+    tax_code = models.fields.CharField(max_length=100,  null=True)
+    nrc = models.fields.CharField(max_length=100, null=True)
+    nat_id = models.fields.CharField(max_length=100, null=True)
+    email = models.fields.CharField(max_length=100, null=True)
     phone_number = models.fields.CharField(max_length=20)
     province = models.fields.CharField(max_length=100)
+    def __str__(self) -> str:
+        return f'{self.company_name}'
 
 #Supplier model
 class Supplier(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_supplier')
+    product_id = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL, related_name='product_supplier')
     supplier_id = models.AutoField(primary_key=True)
     company_name = models.fields.CharField(max_length=100)
     manager_name = models.fields.CharField(max_length=100)
     address = models.fields.CharField(max_length=255)
-    tax_code = models.fields.CharField(max_length=100)
-    nrc = models.fields.CharField(max_length=100)
-    nat_id = models.fields.CharField(max_length=100)
-    email = models.fields.CharField(max_length=100)
+    tax_code = models.fields.CharField(max_length=100, null=True)
+    nrc = models.fields.CharField(max_length=100, null=True)
+    nat_id = models.fields.CharField(max_length=100, null=True)
+    email = models.fields.CharField(max_length=100, null=True)
     phone_number = models.fields.CharField(max_length=20)
     country = models.fields.CharField(max_length=100)
     province = models.fields.CharField(max_length=100)
+    def __str__(self) -> str:
+        return f'{self.company_name}'
     
 #Customer : 2 types of clients : Companies and personal clients 
 #CompanyClient
 class CompanyClient(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_company_client')
+    product_id = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL, related_name='product_company_client')
     company_client_id = models.AutoField(primary_key=True)
-    company_name = models.fields.CharField(max_length=100)
     company_name = models.fields.CharField(max_length=100)
     manager_name = models.fields.CharField(max_length=100)
     address = models.fields.CharField(max_length=255)
-    tax_code = models.fields.CharField(max_length=100)
-    nrc = models.fields.CharField(max_length=100)
-    nat_id = models.fields.CharField(max_length=100)
-    email = models.fields.CharField(max_length=100)
-    phone_number = models.fields.CharField(max_length=20)
+    tax_code = models.fields.CharField(max_length=100, null=True)
+    nrc = models.fields.CharField(max_length=100, null=True)
+    nat_id = models.fields.CharField(max_length=100, null=True)
+    email = models.fields.CharField(max_length=100, null=True)
+    phone_number = models.fields.CharField(max_length=20, null=True)
     country = models.fields.CharField(max_length=100)
     province = models.fields.CharField(max_length=100)
+    def __str__(self) -> str:
+        return f'{self.company_name}'
 
 #PersonalClient
 class PersonalClient(models.Model):
     personal_client_id = models.AutoField(primary_key=True)
     personal_client_name = models.fields.CharField(max_length=100)
     address = models.fields.CharField(max_length=255)
-    email = models.fields.CharField(max_length=100)
-    phone_number = models.fields.CharField(max_length=20)
+    email = models.fields.CharField(max_length=100, null=True)
+    phone_number = models.fields.CharField(max_length=20, null=True)
     country = models.fields.CharField(max_length=100)
     province = models.fields.CharField(max_length=100)
+    def __str__(self) -> str:
+        return f'{self.personal_client_name}'
 
 #Tous les clients
 # class Client(models.Model):
@@ -83,6 +90,8 @@ class Purchase(models.Model):
     quantity = models.fields.IntegerField()
     tva = models.fields.DecimalField(max_digits=5, decimal_places=2, null=True)
     date = models.fields.DateField()
+    def __str__(self) -> str:
+        return f'{self.quantity}'
 
 #Vente au client
 class Sale(models.Model):
@@ -96,6 +105,8 @@ class Sale(models.Model):
     quantity = models.fields.IntegerField()
     tva = models.fields.DecimalField(max_digits=5, decimal_places=2)
     date = models.fields.DateField()
+    def __str__(self) -> str:
+        return f'{self.quantity}'
 
 
 

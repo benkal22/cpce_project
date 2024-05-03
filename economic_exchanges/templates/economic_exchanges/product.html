@@ -1,24 +1,15 @@
+{% extends 'economic_exchanges/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% block content %}
 <h1>Liste de produits</h1>
 <p>Producteurs congolais</p>
 <h1>Liste de secteurs d'activités</h1>
-<p>Secteurs d'activités des produits ou services en République Démocratique du Congo</p>
+<p>{{ product|length }} Secteurs d'activités des produits ou services en République Démocratique du Congo</p>
     <ul>
+            {% for product in product %}
             <li>
-                {{product.0.product_code}}
+                {{product.product_label}}
             </li>
-            <li>
-                {{product.1.product_label}}
-            </li>
+            {% endfor %}
     </ul>
-
-</body>
-</html>
+{% endblock %}

@@ -4,11 +4,11 @@ from .models import *
 
 def product_home(request):
     products = Product.objects.all()
-    return render(request, 'economic_exchanges/product.html', {'products': products})
+    return render(request, 'economic_exchanges/product.html', {'product': products})
 
 def producer_home(request):
     producers = Producer.objects.all()
-    return render(request, 'economic_exchanges/producer.html', {'producers': producers})
+    return render(request, 'economic_exchanges/producer.html', {'producer': producers})
 
 
 def supplier_home(request):

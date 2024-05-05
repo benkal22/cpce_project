@@ -1,0 +1,86 @@
+{% extends 'economic_exchanges/base_login.html' %}
+
+
+{% block content %}
+
+<div class="card mb-3">
+  <div class="card-body">
+
+    <div class="pt-4 pb-2">
+      <h5 class="card-title text-center pb-0 fs-4">Créer un compte</h5>
+      <p class="text-center small">Entrer vos informations personnelles pour créer le compte</p>
+    </div>
+
+    <div class="col-12">
+      <div class="invalid-feedback"> {{ message }}</div> 
+    </div>
+
+    <form method="post" class="row g-3 needs-validation" novalidate>
+
+      {{form}}
+      {% csrf_token %}
+
+      <!-- {% for field in form %} -->
+      <!-- <div class="col-12"> -->
+        <!-- <label for="field.id_for_label_tag" class="form-label">{{ field.label_tag }}</label> -->
+        <!-- {{ field.label_tag }} -->
+        <!-- <input type="{{ field.field.widget.input_type}}" name="{{field.register}}"  -->
+          <!-- class="form-control" id="yourName" placeholder="" required> -->
+        <!-- {{ field }} -->
+      <!-- </div> -->
+
+      <!-- {% for error in field.errors %}
+      <div class="col-12">
+        <div class="invalid-feedback"> {{ error }}</div> 
+      </div>
+      {% endfor %} -->
+      <!-- <div class="col-12">
+        <label for="yourName" class="form-label">Votre nom</label>
+        <input type="text" name="name" class="form-control" id="yourName" required>
+        <div class="invalid-feedback">Svp, entrez un nom !</div>
+      </div>
+
+      <div class="col-12">
+        <label for="yourEmail" class="form-label">Votre adresse email</label>
+        <input type="email" name="email" class="form-control" id="yourEmail" required>
+        <div class="invalid-feedback">Svp, entrez une adresse email valide !</div>
+      </div>
+
+      <div class="col-12">
+        <label for="yourUsername" class="form-label">Nom d'utilisateur</label>
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">@</span>
+          <input type="text" name="username" class="form-control" id="yourUsername" required>
+          <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : nadegempala)</div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label for="yourPassword" class="form-label">Mot de passe</label>
+        <input type="password" name="password" class="form-control" id="yourPassword" required>
+        <div class="invalid-feedback">Svp, entrez votre mot de passe</div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-check">
+          <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
+          <label class="form-check-label" for="acceptTerms">J'accepte les <a href="#">termes et
+              conditions</a></label>
+          <div class="invalid-feedback">Vous devriez accepter les termes et conditions d'utilisation de l'application</div>
+        </div>
+      </div> -->
+      <!-- {% endfor %} -->
+      <div class="col-12">
+        <button class="btn btn-primary w-100" type="submit">Créer compte</button>
+      </div>
+      <div class="col-12">
+        <p class="small mb-0">Etes-vous prêt à démarrer ? <a href="{% url 'login' %}">Se connecter</a></p>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+
+{% endblock %}

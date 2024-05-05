@@ -1,0 +1,50 @@
+{% extends 'economic_exchanges/base_login.html' %}
+
+{% block content %}
+
+<div class="card mb-3">
+
+    <div class="card-body">
+
+        <div class="pt-4 pb-2">
+            <h5 class="card-title text-center pb-0 fs-4">Se connecter à votre compte</h5>
+            <p class="text-center small">Entrer votre nom d'utilisateur et mot de passe pour se connecter</p>
+        </div>
+
+        <form id="loginForm" method="post" class="row g-3 needs-validation" novalidate>
+            {% csrf_token %}
+            {{ form }}
+
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary w-100" type="submit">Se connecter</button>
+            </div>
+            <div class="col-12">
+                <p class="small mb-0">Vous n'avez pas de compte ? <a href="{% url 'register' %}">Créer votre compte</a></p>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var username = document.getElementsByName("username")[0].value;
+        var password = document.getElementsByName("password")[0].value;
+
+        console.log("Username: ", username);
+        console.log("Password: ", password);
+
+        this.submit();
+    });
+</script> -->
+
+{% endblock %}

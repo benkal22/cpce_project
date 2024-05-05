@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from economic_exchanges import views
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('dashboard/', views.dashboard, name='dashboard'),
 
     path('product/', views.product_home),
     path('product/<int:id>/', views.product_detail, name='product-detail'),
@@ -41,4 +44,15 @@ urlpatterns = [
 
     path('contact/', views.contact, name='contact'),
     path('contact-sent/', views.contact_sent, name='contact-sent'),
+
+    # Login
+    # path('login/', views.login_page, name='login'),
+    path('accounts/register/', views.register_page, name='register'),
+    # path('profile<int:id>/', views.profile, name='profile'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/profile/', views.profile, name='profile'),
+
+    #Others pages
+    path('faq/', views.page_faq, name='faq'),
+
 ]

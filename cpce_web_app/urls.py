@@ -20,8 +20,25 @@ from economic_exchanges import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('product/', views.product_home),
-    path('producer/', views.producer_home),
-    path('supplier/', views.supplier_home),
-    path('customer/', views.customer_home),
+    path('product/<int:id>/', views.product_detail, name='product-detail'),
+
+    path('producer/', views.producer_home, name='producer-list'),
+    path('producer/<int:id>/', views.producer_detail, name='producer-detail'),
+
+    path('supplier/', views.supplier_home, name='supplier-list'),
+    path('supplier/<int:id>/', views.supplier_detail, name='supplier-detail'),
+    path('supplier/add/', views.supplier_create, name='supplier-create'),
+
+    path('client/', views.client_home),
+    path('client/comp<int:id>/', views.client_company_detail, name='client-company-detail'),
+    path('client/pers<int:id>/', views.client_personal_detail, name='client-personal-detail'),
+
+    path('declaration/', views.declaration_home),
+    path('declaration/purch<int:id>/', views.declaration_purchase_detail, name='declaration-purchase-detail'),
+    path('declaration/sal<int:id>/', views.declaration_sale_detail, name='declaration-sale-detail'),
+
+    path('contact/', views.contact, name='contact'),
+    path('contact-sent/', views.contact_sent, name='contact-sent'),
 ]

@@ -1,0 +1,23 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>Achat {{ purchase.product_id }} auprès {{purchase.supplier_id}}</h1>
+
+<ul>
+    <li>
+        {{purchase.price}}
+    </li>
+    <li>
+        {{purchase.quantity}}
+    </li>
+    <li>
+        {{purchase.tva}}
+    </li>
+    <li>
+        {{purchase.date}}
+    </li>
+</ul>
+
+{% endblock %}
+

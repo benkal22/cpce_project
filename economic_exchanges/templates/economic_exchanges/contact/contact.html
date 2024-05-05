@@ -1,0 +1,13 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+<h1>Nous contacter
+</h1>
+<p>Nous sommes là pour vous aider</p>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Envoyer">
+</form>
+{% endblock %}

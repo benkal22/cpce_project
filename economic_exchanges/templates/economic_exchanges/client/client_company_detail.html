@@ -1,0 +1,36 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>{{companyClient.company_name}}</h1>
+<ul>
+    <li>
+        {{companyClient.manager_name}}
+    </li>
+    <li>
+        {{companyClient.address}}
+    </li>
+    <li>
+        {{companyClient.tax_code}}
+    </li>
+    <li>
+        {{companyClient.nrc}}
+    </li>
+    <li>
+        {{companyClient.nat_id}}
+    </li>
+    <li>
+        {{companyClient.email}}
+    </li>
+    <li>
+        {{companyClient.phone_number}}
+    </li>
+    <li>
+        {{companyClient.country}}
+    </li>
+    <li>
+        {{companyClient.province}}
+    </li>
+</ul>
+
+{% endblock %}

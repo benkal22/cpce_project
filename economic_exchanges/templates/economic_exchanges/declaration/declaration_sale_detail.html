@@ -1,0 +1,28 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>Vente de {{ sale.product_id }} à 
+    {% if sale.company_id is None %}
+        {{sale.personal_client_id}}
+    {% else %}
+        {{sale.company_id}}
+    {% endif %}
+    </h1>
+<ul>
+    <li>
+        {{sale.price}}
+    </li>
+    <li>
+        {{sale.quantity}}
+    </li>
+    <li>
+        {{sale.tva}}
+    </li>
+    <li>
+        {{sale.date}}
+    </li>
+</ul>
+
+{% endblock %}
+

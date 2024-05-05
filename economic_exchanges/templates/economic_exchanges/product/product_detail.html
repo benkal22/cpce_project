@@ -1,0 +1,24 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>{{product.product_label}}</h1>
+<ul>
+    <li>
+        {{product.sector_code}}
+    </li>
+    <li>
+        {{product.sector_label}}
+    </li>
+    <li>
+        {{product.activity_code}}
+    </li>
+    <li>
+        {{product.activity_label}}
+    </li>
+    <li>
+        {{product.product_code}}
+    </li>
+</ul>
+
+{% endblock %}

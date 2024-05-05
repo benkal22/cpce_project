@@ -6,9 +6,9 @@
 <p>{{ producer|length }} producteurs en République Démocratique du Congo</p>
 <ul>
         {% for producer in producer %}
-        <li>
+        <li><a href="/producer/{{producer.producer_id}}/">
             {{producer.company_name}}
-        </li>
+        </a></li>
         {% endfor %}
 </ul>
 {% endblock %}

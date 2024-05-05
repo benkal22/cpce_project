@@ -1,0 +1,36 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>{{supplier.company_name}}</h1>
+<ul>
+    <li>
+        {{supplier.manager_name}}
+    </li>
+    <li>
+        {{supplier.address}}
+    </li>
+    <li>
+        {{supplier.tax_code}}
+    </li>
+    <li>
+        {{supplier.nrc}}
+    </li>
+    <li>
+        {{supplier.nat_id}}
+    </li>
+    <li>
+        {{supplier.email}}
+    </li>
+    <li>
+        {{supplier.phone_number}}
+    </li>
+    <li>
+        {{supplier.country}}
+    </li>
+    <li>
+        {{supplier.province}}
+    </li>
+</ul>
+
+{% endblock %}

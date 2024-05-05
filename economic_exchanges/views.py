@@ -8,10 +8,16 @@ from economic_exchanges.models.personal_clients import PersonalClient
 from economic_exchanges.models.purchases import Purchase
 from economic_exchanges.models.sales import Sale
 
-from django.shortcuts import render
-from economic_exchanges.forms import ContactUsForm
+from django.shortcuts import render, redirect
+from economic_exchanges.forms import ContactUsForm, LoginForm
 from django.core.mail import send_mail
-from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
+from django.contrib import messages
+
+#Dashboard
+def dashboard(request):
+    return render(request, 'economic_exchanges/dashboard/dashboard.html', )
 
 #View product / Secteur d'activité économique
 def product_home(request):
@@ -101,4 +107,54 @@ def contact(request):
 
 def contact_sent(request):
     return render(request, 'economic_exchanges/contact/contact_sent.html')
+
+def register_page(request):
+    form = UserCreationForm()
+    message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            if user is not None:
+                login(request, user)
+                message = f'Bonjour  {user.username}, votre compte a été créé avec succès !'
+            # messages.success(request, f'Bonjour {username}, votre compte a été créé avec succès !')
+                return redirect('dashboard')
+            else:
+                message ='Identifiants invalides'
+    return render(request, 'registration/register.html', {'form': form, 'message': message})
     
+    # else:
+    #     form = UserCreationForm()
+    # return render(request, 'economic_exchanges/account/register.html', {'form': form})
+
+def profile(request):
+    return render(request, 'registration/profile.html')
+
+def login_page(request):
+    form = LoginForm()
+    message = ''
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(request, username=username, password=password)
+            # login(request, user)
+            if user is not None:
+                login(request, user)
+                message = f'Bonjour  {user.username}, votre compte a été créé avec succès !'
+            # messages.success(request, f'Bonjour {username}, votre compte a été créé avec succès !')
+                return redirect('producers')
+            else:
+                message ='Identifiants invalides'
+    return render(request, 'economic_exchanges/account/login.html', {'form': form, 'message': message})
+
+#Faq
+def page_faq(request):
+    return render(request, 'others_pages/faq.html', )

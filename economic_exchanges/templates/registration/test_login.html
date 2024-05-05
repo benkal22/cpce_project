@@ -1,0 +1,12 @@
+{% extends 'economic_exchanges/base_login.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% redirect("url 'register'") %}
+{% else %}
+    <p class="small mb-0">Problème de connexion. <a href="{% url 'login' %}">Réessayez de se connecter</a></p>
+    
+{% endif %}
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from economic_exchanges.models.products import Product
 
 #Producer model
@@ -7,6 +8,7 @@ class Producer(models.Model):
     producer_id = models.AutoField(primary_key=True)
     company_name = models.fields.CharField(max_length=100)
     manager_name = models.fields.CharField(max_length=100)
+    profile_photo = models.ImageField(null=True, verbose_name='Photo de profil entreprise')
     addresse = models.fields.CharField(max_length=255)
     tax_code = models.fields.CharField(max_length=100,  null=True)
     nrc = models.fields.CharField(max_length=100, null=True)

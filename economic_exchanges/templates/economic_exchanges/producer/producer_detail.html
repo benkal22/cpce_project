@@ -1,0 +1,36 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>{{producer.company_name}}</h1>
+<ul>
+    <li>
+        {{producer.manager_name}}
+    </li>
+    <li>
+        {{producer.addresse}}
+    </li>
+    <li>
+        {{producer.tax_code}}
+    </li>
+    <li>
+        {{producer.nrc}}
+    </li>
+    <li>
+        {{producer.nat_id}}
+    </li>
+    <li>
+        {{producer.email}}
+    </li>
+    <li>
+        {{producer.phone_number}}
+    </li>
+    <!-- <li>
+        {{producer.country}}
+    </li> -->
+    <li>
+        {{producer.province}}
+    </li>
+</ul>
+
+{% endblock %}

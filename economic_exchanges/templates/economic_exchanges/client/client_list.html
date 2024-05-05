@@ -1,0 +1,24 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>Liste de clients</h1>
+<!-- <p>{{ companyClients|length }} clients</p> -->
+<h4>Clients professionnels</h4>
+<ul>
+    {% for companyClient in companyClients %}
+    <li>
+        <a href="{% url 'client-company-detail' companyClient.company_client_id %}">{{companyClient.company_name}}</a>
+    </li>
+    {% endfor %}  
+</ul>
+
+<h4>Clients personnels</h4>
+<ul>
+    {% for personalClient in personalClients %}
+    <li>
+        <a href="{% url 'client-personal-detail' personalClient.personal_client_id %}">{{personalClient.personal_client_name}}</a>
+    </li>
+    {% endfor %}  
+</ul>
+{% endblock %}

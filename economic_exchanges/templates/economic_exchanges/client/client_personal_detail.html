@@ -1,0 +1,24 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>{{personalClient.personal_client_name}}</h1>
+<ul>
+    <li>
+        {{personalClient.address}}
+    </li>
+    <li>
+        {{personalClient.email}}
+    </li>
+    <li>
+        {{personalClient.phone_number}}
+    </li>
+    <li>
+        {{personalClient.country}}
+    </li>
+    <li>
+        {{personalClient.province}}
+    </li>
+</ul>
+
+{% endblock %}

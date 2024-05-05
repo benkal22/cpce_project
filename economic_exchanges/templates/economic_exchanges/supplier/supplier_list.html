@@ -1,0 +1,12 @@
+{% extends 'economic_exchanges/base.html' %}
+
+{% block content %}
+
+<h1>Mes fournisseurs</h1>
+<p>{{ suppliers|length }} fournisseurs en République Démocratique du Congo</p>
+<ul>
+        {% for supplier in suppliers %}
+        <li><a href="{% url 'supplier-detail' supplier.supplier_id %}">{{supplier.company_name}}</a></li>
+        {% endfor %}
+</ul>
+{% endblock %}

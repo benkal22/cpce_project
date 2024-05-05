@@ -1,3 +1,8 @@
 env/
 
 db.sqlite3
+node_modules
+assets
+authentification/__pycache__
+cpce_web_app/__pycache__
+economic_exchanges/__pycache__

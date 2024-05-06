@@ -1,20 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from economic_exchanges.models.products import Product
+from economic_exchanges.models.provinces import Province
 
-#Producer model
-class Producer(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_producer')
-    producer_id = models.AutoField(primary_key=True)
+#Producer model défini comme utilisateur de l'application
+class Producer(AbstractUser):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_producer')
     company_name = models.fields.CharField(max_length=100)
     manager_name = models.fields.CharField(max_length=100)
     profile_photo = models.ImageField(null=True, verbose_name='Photo de profil entreprise')
-    addresse = models.fields.CharField(max_length=255)
-    tax_code = models.fields.CharField(max_length=100,  null=True)
-    nrc = models.fields.CharField(max_length=100, null=True)
-    nat_id = models.fields.CharField(max_length=100, null=True)
-    email = models.fields.CharField(max_length=100, null=True)
+    address = models.fields.CharField(max_length=255)
+    tax_code = models.fields.CharField(max_length=100, blank=True, null=True)
+    nrc = models.fields.CharField(max_length=100, blank=True, null=True)
+    nat_id = models.fields.CharField(max_length=100, blank=True, null=True)
     phone_number = models.fields.CharField(max_length=20)
-    province = models.fields.CharField(max_length=100)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, related_name='producer_province')
     def __str__(self) -> str:
         return f'{self.company_name}'

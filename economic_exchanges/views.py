@@ -14,6 +14,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
+from .forms import ProducerRegistrationForm
 
 #Dashboard
 def dashboard(request):
@@ -109,10 +110,16 @@ def contact_sent(request):
     return render(request, 'economic_exchanges/contact/contact_sent.html')
 
 def register_page(request):
-    form = UserCreationForm()
+    print("Ok 000")
+    # form = UserCreationForm()
+    form = ProducerRegistrationForm()
     message = ''
+    print("Ok 001")
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        # form = UserCreationForm(request.POST)
+        print("Ok 002")
+        form = ProducerRegistrationForm(request.POST)
+
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -125,7 +132,9 @@ def register_page(request):
             # messages.success(request, f'Bonjour {username}, votre compte a été créé avec succès !')
                 return redirect('dashboard')
             else:
+                print(form.errors)
                 message ='Identifiants invalides'
+    
     return render(request, 'registration/register.html', {'form': form, 'message': message})
     
     # else:

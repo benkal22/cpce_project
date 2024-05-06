@@ -15,64 +15,85 @@
       <div class="invalid-feedback"> {{ message }}</div> 
     </div>
 
-    <form method="post" class="row g-3 needs-validation" novalidate>
+    <form method="POST" class="row g-1 needs-validation" novalidate>
 
-      {{form}}
       {% csrf_token %}
+     
+      <!-- ======= ****AFFICHAGE DES CHAMPS**** ======= -->
+      <!-- ======= Company name Field ======= -->
+      {{ form.company_name.label_tag }}
+      {{ form.company_name}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Company name Field -->
 
-      <!-- {% for field in form %} -->
-      <!-- <div class="col-12"> -->
-        <!-- <label for="field.id_for_label_tag" class="form-label">{{ field.label_tag }}</label> -->
-        <!-- {{ field.label_tag }} -->
-        <!-- <input type="{{ field.field.widget.input_type}}" name="{{field.register}}"  -->
-          <!-- class="form-control" id="yourName" placeholder="" required> -->
-        <!-- {{ field }} -->
-      <!-- </div> -->
+      <!-- ======= Manager name ======= --> 
+      {{ form.manager_name.label_tag }}
+      {{ form.manager_name}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- Manager name -->
 
-      <!-- {% for error in field.errors %}
-      <div class="col-12">
-        <div class="invalid-feedback"> {{ error }}</div> 
-      </div>
-      {% endfor %} -->
+      <!-- ======= Sector Activity ======= -->
+
+      <!-- End Sector Activity -->
+
+      <!-- ======= Product activity ======= -->
+      {{ form.product_id.label_tag }}
+      {{ form.product_id}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Product activity -->
+
+      <!-- ======= Province Field ======= -->
+      {{ form.province.label_tag }}
+      {{ form.province}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Province Field -->
+
+      <!-- ======= Address Field ======= -->
+      {{ form.address.label_tag }}
+      {{ form.address}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Addresse Field -->
+
+      <!-- ======= Tax Field ======= -->
+      <!-- End Tax field -->
+
+      <!-- ======= NRC Field ======= -->
+      <!-- End NRC field -->
+
+      <!-- ======= ID Nat Field ======= -->
+      <!-- End ID Nat field -->
+
+      <!-- ======= Email Field ======= -->
+      <!-- End Email field -->
+
+      <!-- ======= Number phone Field ======= -->
+      <!-- End Number phone field -->
+
+      <!-- ======= Username field ======= -->
+
       <!-- <div class="col-12">
-        <label for="yourName" class="form-label">Votre nom</label>
-        <input type="text" name="name" class="form-control" id="yourName" required>
-        <div class="invalid-feedback">Svp, entrez un nom !</div>
-      </div>
-
-      <div class="col-12">
-        <label for="yourEmail" class="form-label">Votre adresse email</label>
-        <input type="email" name="email" class="form-control" id="yourEmail" required>
-        <div class="invalid-feedback">Svp, entrez une adresse email valide !</div>
-      </div>
-
-      <div class="col-12">
-        <label for="yourUsername" class="form-label">Nom d'utilisateur</label>
+      {{ form.username.label_tag }}
         <div class="input-group has-validation">
           <span class="input-group-text" id="inputGroupPrepend">@</span>
-          <input type="text" name="username" class="form-control" id="yourUsername" required>
-          <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : nadegempala)</div>
-        </div>
-      </div>
-
-      <div class="col-12">
-        <label for="yourPassword" class="form-label">Mot de passe</label>
-        <input type="password" name="password" class="form-control" id="yourPassword" required>
-        <div class="invalid-feedback">Svp, entrez votre mot de passe</div>
-      </div>
-
-      <div class="col-12">
-        <div class="form-check">
-          <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-          <label class="form-check-label" for="acceptTerms">J'accepte les <a href="#">termes et
-              conditions</a></label>
-          <div class="invalid-feedback">Vous devriez accepter les termes et conditions d'utilisation de l'application</div>
+          {{ form.username }}
+          <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : monentreprise01)</div>
         </div>
       </div> -->
-      <!-- {% endfor %} -->
+      {{ form.username.label_tag }}
+      {{ form.username }}
+      <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : monentreprise01)</div>
+      <!-- End username field -->
+
+      <!-- ======= Password Field ======= -->
+      <!-- End Password  field -->
+
+      <!-- ======= Confirm Password ield ======= -->
+      <!-- Confirm Password field -->
+
       <div class="col-12">
         <button class="btn btn-primary w-100" type="submit">Créer compte</button>
       </div>
+      
       <div class="col-12">
         <p class="small mb-0">Etes-vous prêt à démarrer ? <a href="{% url 'login' %}">Se connecter</a></p>
       </div>

@@ -7,16 +7,18 @@ from economic_exchanges.models.company_clients import CompanyClient
 from economic_exchanges.models.personal_clients import PersonalClient
 from economic_exchanges.models.purchases import Purchase
 from economic_exchanges.models.sales import Sale
+from economic_exchanges.models.provinces import Province
 
 
-class ProducerAdmin(admin.ModelAdmin):
-    list_display = ('producer_id', 'company_name', 'manager_name', 'addresse', 'tax_code', 'nrc', 'nat_id', 'email', 'phone_number', 'province', 'product_id')
+# class ProducerAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'company_name', 'manager_name', 'address', 'tax_code', 'nrc', 'nat_id', 'email', 'phone_number', 'province', 'product_id')
 
-admin.site.register(Producer, ProducerAdmin)
+admin.site.register(Producer)
 admin.site.register(Product)
 admin.site.register(Supplier)
 admin.site.register(CompanyClient)
 admin.site.register(PersonalClient)
 admin.site.register(Purchase)
 admin.site.register(Sale)
+admin.site.register(Province)
 

@@ -6,10 +6,10 @@ from economic_exchanges.models.suppliers import Supplier
 
 #Achat chez le fournisseur
 class Purchase(models.Model):
-    purchase_id = models.AutoField(primary_key=True)
-    supplier_id = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='supplier_purchase')
-    producer_id = models.ForeignKey(Producer, on_delete=models.CASCADE, related_name='producer_purchase')
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_purchase')
+    # purchase_id = models.AutoField(primary_key=True)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='supplier_purchase')
+    producer = models.ForeignKey(Producer, on_delete=models.CASCADE, related_name='producer_purchase')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_purchase')
     price = models.fields.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.fields.IntegerField()
     tva = models.fields.DecimalField(max_digits=5, decimal_places=2, null=True)

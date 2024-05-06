@@ -19,17 +19,4 @@ class Supplier(models.Model):
     def __str__(self) -> str:
         return f'{self.company_name}'
     
-#SupplierForm
-class SupplierForm(forms.Form):
-    # product_id = forms.ForeignKey(Product, null=True, on_delete=forms.SET_NULL, related_name='product_supplier')
-    # supplier_id = forms.AutoField(primary_key=True)
-    company_name = forms.CharField(max_length=100)
-    manager_name = forms.CharField(max_length=100)
-    address = forms.CharField(max_length=255)
-    tax_code = forms.CharField(max_length=100)
-    nrc = forms.CharField(max_length=100)
-    nat_id = forms.CharField(max_length=100)
-    email = forms.CharField(max_length=100)
-    phone_number = forms.CharField(max_length=20)
-    country = forms.CharField(max_length=100)
-    province = forms.CharField(max_length=100)
+

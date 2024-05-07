@@ -4,7 +4,7 @@ from django import forms
 
 #Supplier model
 class Supplier(models.Model):
-    product_id = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL, related_name='product_supplier')
+    product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL, related_name='product_supplier')
     supplier_id = models.AutoField(primary_key=True)
     company_name = models.fields.CharField(max_length=100)
     manager_name = models.fields.CharField(max_length=100)

@@ -5,7 +5,7 @@ from economic_exchanges.models.producers import Producer
 #CompanyClient
 class CompanyClient(models.Model):
     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL, related_name='product_company_client')
-    producer = models.ForeignKey(Producer, on_delete=models.CASCADE, related_name='producer_company_client')
+    producer = models.ForeignKey(Producer, null=True, on_delete=models.CASCADE, related_name='producer_company_client')
     # company_client_id = models.AutoField(primary_key=True)
     company_name = models.fields.CharField(max_length=100)
     manager_name = models.fields.CharField(max_length=100)

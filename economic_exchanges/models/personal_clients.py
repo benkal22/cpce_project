@@ -3,7 +3,7 @@ from economic_exchanges.models.producers import Producer
 
 #PersonalClient
 class PersonalClient(models.Model):
-    producer = models.ForeignKey(Producer, on_delete=models.CASCADE, related_name='producer_personal_client')
+    producer = models.ForeignKey(Producer, null=True, on_delete=models.CASCADE, related_name='producer_personal_client')
     # personal_client_id = models.AutoField(primary_key=True)
     personal_client_name = models.fields.CharField(max_length=100)
     address = models.fields.CharField(max_length=255)

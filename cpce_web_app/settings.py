@@ -109,6 +109,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Authentification Backend
+# Appel de SuperUserAdminBackend qui restreint l'accès d'un superuser à l'application economic_exchanges
+
+AUTHENTIFICATION_BACKENDS = [
+    'economic_exchanges.backends.SuperUserAdminBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -135,6 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "/dashboard"
 LOGOUT_REDIRECT_URL = "/accounts/login"
+# LOGIN_URL = "/accounts/login"
+
 #smtp
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

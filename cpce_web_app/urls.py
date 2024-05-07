@@ -24,7 +24,7 @@ urlpatterns = [
 
     path('dashboard/', views.dashboard, name='dashboard'),
 
-    path('product/', views.product_home),
+    path('product/', views.product_home, name='product-list'),
     path('product/<int:id>/', views.product_detail, name='product-detail'),
 
     path('producer/', views.producer_home, name='producer-list'),
@@ -34,11 +34,11 @@ urlpatterns = [
     path('supplier/<int:id>/', views.supplier_detail, name='supplier-detail'),
     path('supplier/add/', views.supplier_create, name='supplier-create'),
 
-    path('client/', views.client_home),
+    path('client/', views.client_home, name='client-list'),
     path('client/comp<int:id>/', views.client_company_detail, name='client-company-detail'),
     path('client/pers<int:id>/', views.client_personal_detail, name='client-personal-detail'),
 
-    path('declaration/', views.declaration_home),
+    path('declaration/', views.declaration_home, name='purchases-sales'),
     path('declaration/purch<int:id>/', views.declaration_purchase_detail, name='declaration-purchase-detail'),
     path('declaration/sal<int:id>/', views.declaration_sale_detail, name='declaration-sale-detail'),
 

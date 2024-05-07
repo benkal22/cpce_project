@@ -6,7 +6,7 @@
 <p>{{ products|length }} produits actifs</p>
 <ul>
     {% for product in products %}
-    <li><a href="{% url 'product-detail' product.product_id %}">{{product.product_label}}</a></li>
+    <li><a href="{% url 'product-detail' product.id %}">{{product.product_label}}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

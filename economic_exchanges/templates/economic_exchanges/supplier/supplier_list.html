@@ -5,7 +5,7 @@
         <h1>Mes fournisseurs</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Accueil</a></li>
                 <!-- <li class="breadcrumb-item">Users</li> -->
                 <li class="breadcrumb-item active">Mes fournisseurs</li>
             </ol>
@@ -17,7 +17,7 @@
 <p>{{ suppliers|length }} fournisseurs en République Démocratique du Congo</p>
 <ul>
         {% for supplier in suppliers %}
-        <li><a href="{% url 'supplier-detail' supplier.supplier_id %}">{{supplier.company_name}}</a></li>
+        <li><a href="{% url 'supplier-detail' supplier.id %}">{{supplier.company_name}}</a></li>
         {% endfor %}
 </ul>
 {% endblock %}

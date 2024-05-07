@@ -16,7 +16,6 @@
     </div>
 
     <form method="POST" class="row g-1 needs-validation" novalidate>
-
       {% csrf_token %}
      
       <!-- ======= ****AFFICHAGE DES CHAMPS**** ======= -->
@@ -29,16 +28,24 @@
       <!-- ======= Manager name ======= --> 
       {{ form.manager_name.label_tag }}
       {{ form.manager_name}}
-      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <div class="invalid-feedback">  Svp, champ obligatoire !</div>
       <!-- Manager name -->
 
-      <!-- ======= Sector Activity ======= -->
+      <!-- ======= Photo Profile or Logo Field ======= -->
+      {{ form.profile_photo.label_tag }}
+      {{ form.profile_photo }}
+      <div class="invalid-feedback"> {{ form.manager_name.errors }}</div>
+      <!-- End Logo field -->
 
+      <!-- ======= Sector Activity ======= -->
+      {{ form.sector_label.label_tag }}
+      {{ form.sector_label }}
+      <div class="invalid-feedback"></div>
       <!-- End Sector Activity -->
 
       <!-- ======= Product activity ======= -->
-      {{ form.product_id.label_tag }}
-      {{ form.product_id}}
+      {{ form.product.label_tag }}
+      {{ form.product}}
       <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
       <!-- End Product activity -->
 
@@ -47,7 +54,7 @@
       {{ form.province}}
       <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
       <!-- End Province Field -->
-
+      
       <!-- ======= Address Field ======= -->
       {{ form.address.label_tag }}
       {{ form.address}}
@@ -64,9 +71,16 @@
       <!-- End ID Nat field -->
 
       <!-- ======= Email Field ======= -->
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      <div class="invalid-feedback">Svp, champ obligatoire !</div>
       <!-- End Email field -->
 
       <!-- ======= Number phone Field ======= -->
+      {{ form.phone_number.label_tag }}
+      {{ form.phone_number }}
+      <div class="invalid-feedback">Svp, champ obligatoire !</div>
+      
       <!-- End Number phone field -->
 
       <!-- ======= Username field ======= -->
@@ -85,9 +99,16 @@
       <!-- End username field -->
 
       <!-- ======= Password Field ======= -->
+      {{ form.password.label_tag }}
+      {{ form.password }}
+      <div class="invalid-feedback">{{form.password.errors }}Mot de passe incorrect</div>
       <!-- End Password  field -->
 
       <!-- ======= Confirm Password ield ======= -->
+      {{ form.confirm_password.label_tag }}
+      {{ form.confirm_password }}
+      <div class="invalid-feedback">{{form.confirm_password.errors}}Mot de passe incorrect</div>
+      <p></p>
       <!-- Confirm Password field -->
 
       <div class="col-12">

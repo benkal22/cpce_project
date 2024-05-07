@@ -12,7 +12,8 @@ from django.shortcuts import render, redirect
 from economic_exchanges.forms import ContactUsForm, LoginForm
 from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProducerRegistrationForm
 
@@ -109,15 +110,11 @@ def contact(request):
 def contact_sent(request):
     return render(request, 'economic_exchanges/contact/contact_sent.html')
 
+# Account View
 def register_page(request):
-    print("Ok 000")
-    # form = UserCreationForm()
     form = ProducerRegistrationForm()
     message = ''
-    print("Ok 001")
     if request.method == 'POST':
-        # form = UserCreationForm(request.POST)
-        print("Ok 002")
         form = ProducerRegistrationForm(request.POST)
 
         if form.is_valid():
@@ -163,6 +160,14 @@ def login_page(request):
             else:
                 message ='Identifiants invalides'
     return render(request, 'economic_exchanges/account/login.html', {'form': form, 'message': message})
+
+# def logout_user(request):
+#     logout(request)
+#     return redirect('login')
+
+@login_required
+def home(request):
+    return render(request, 'economic_exchanges/dashboard.html')
 
 #Faq
 def page_faq(request):

@@ -7,7 +7,7 @@
 <h4>Mes achats auprès des fournisseurs</h4>
 <ul>
     {% for purchase in purchases %}
-    <li><a href="{% url 'declaration-purchase-detail' purchase.purchase_id %}">
+    <li><a href="{% url 'declaration-purchase-detail' purchase.id %}">
         {{purchase.quantity}} Fc {{purchase.product_id}} auprès de {{purchase.supplier_id}}, {{purchase.date}}</a></li>
     {% endfor %}  
 </ul>
@@ -16,7 +16,7 @@
 <ul>
     {% for sale in sales %}
     <li>
-        <a href="{% url 'declaration-sale-detail' sale.sale_id %}">
+        <a href="{% url 'declaration-sale-detail' sale.id %}">
             {{sale.quantity}} Fc {{sale.product_id}} à 
             
             {% if sale.company_id is None %}

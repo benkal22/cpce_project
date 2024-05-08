@@ -1,6 +1,5 @@
 {% extends 'economic_exchanges/base_login.html' %}
 
-
 {% block content %}
 
 <div class="card mb-3">
@@ -11,110 +10,24 @@
       <p class="text-center small">Entrer vos informations personnelles pour créer le compte</p>
     </div>
 
-    <div class="col-12">
-      <div class="invalid-feedback"> {{ message }}</div> 
-    </div>
-
-    <form method="POST" class="row g-1 needs-validation" novalidate>
+    <form id="registrationForm" method="POST" class="row g-1 needs-validation" novalidate>
       {% csrf_token %}
-     
-      <!-- ======= ****AFFICHAGE DES CHAMPS**** ======= -->
-      <!-- ======= Company name Field ======= -->
-      {{ form.company_name.label_tag }}
-      {{ form.company_name}}
-      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
-      <!-- End Company name Field -->
+      {{form}}
 
-      <!-- ======= Manager name ======= --> 
-      {{ form.manager_name.label_tag }}
-      {{ form.manager_name}}
-      <div class="invalid-feedback">  Svp, champ obligatoire !</div>
-      <!-- Manager name -->
-
-      <!-- ======= Photo Profile or Logo Field ======= -->
-      {{ form.profile_photo.label_tag }}
-      {{ form.profile_photo }}
-      <div class="invalid-feedback"> {{ form.manager_name.errors }}</div>
-      <!-- End Logo field -->
-
-      <!-- ======= Sector Activity ======= -->
-      {{ form.sector_label.label_tag }}
-      {{ form.sector_label }}
-      <div class="invalid-feedback"></div>
-      <!-- End Sector Activity -->
-
-      <!-- ======= Product activity ======= -->
-      {{ form.product.label_tag }}
-      {{ form.product}}
-      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
-      <!-- End Product activity -->
-
-      <!-- ======= Province Field ======= -->
-      {{ form.province.label_tag }}
-      {{ form.province}}
-      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
-      <!-- End Province Field -->
+      {% for field in form %}
+        <label for="" class="form-label">  {{field.label_tag}}</label>
+        {{field}}
+        
+        <div class="invalid-feedback"></div>
+      {% endfor %}
       
-      <!-- ======= Address Field ======= -->
-      {{ form.address.label_tag }}
-      {{ form.address}}
-      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
-      <!-- End Addresse Field -->
-
-      <!-- ======= Tax Field ======= -->
-      <!-- End Tax field -->
-
-      <!-- ======= NRC Field ======= -->
-      <!-- End NRC field -->
-
-      <!-- ======= ID Nat Field ======= -->
-      <!-- End ID Nat field -->
-
-      <!-- ======= Email Field ======= -->
-      {{ form.email.label_tag }}
-      {{ form.email }}
-      <div class="invalid-feedback">Svp, champ obligatoire !</div>
-      <!-- End Email field -->
-
-      <!-- ======= Number phone Field ======= -->
-      {{ form.phone_number.label_tag }}
-      {{ form.phone_number }}
-      <div class="invalid-feedback">Svp, champ obligatoire !</div>
-      
-      <!-- End Number phone field -->
-
-      <!-- ======= Username field ======= -->
-
-      <!-- <div class="col-12">
-      {{ form.username.label_tag }}
-        <div class="input-group has-validation">
-          <span class="input-group-text" id="inputGroupPrepend">@</span>
-          {{ form.username }}
-          <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : monentreprise01)</div>
-        </div>
-      </div> -->
-      {{ form.username.label_tag }}
-      {{ form.username }}
-      <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : monentreprise01)</div>
-      <!-- End username field -->
-
-      <!-- ======= Password Field ======= -->
-      {{ form.password.label_tag }}
-      {{ form.password }}
-      <div class="invalid-feedback">{{form.password.errors }}Mot de passe incorrect</div>
-      <!-- End Password  field -->
-
-      <!-- ======= Confirm Password ield ======= -->
-      {{ form.confirm_password.label_tag }}
-      {{ form.confirm_password }}
-      <div class="invalid-feedback">{{form.confirm_password.errors}}Mot de passe incorrect</div>
-      <p></p>
-      <!-- Confirm Password field -->
+      <!-- </div> -->
+      <div>
 
       <div class="col-12">
         <button class="btn btn-primary w-100" type="submit">Créer compte</button>
       </div>
-      
+
       <div class="col-12">
         <p class="small mb-0">Etes-vous prêt à démarrer ? <a href="{% url 'login' %}">Se connecter</a></p>
       </div>
@@ -122,7 +35,121 @@
 
   </div>
 </div>
+<!-- <div> -->
 
+</div>
 
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#registrationForm');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêcher la soumission du formulaire par défaut
+
+        // Réinitialiser les messages d'erreur existants
+        const errorMessages = form.querySelectorAll('.invalid-feedback');
+        errorMessages.forEach(errorMessage => {
+            errorMessage.textContent = ''; // Effacer le contenu des messages d'erreur
+            errorMessage.style.display = 'none'; // Masquer les messages d'erreur
+        });
+
+        // Vérifier les erreurs de chaque champ du formulaire
+        const inputs = form.querySelectorAll('input');
+        let formIsValid = true; // Définir une variable pour suivre l'état global de la validité du formulaire
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                // Récupérer l'élément suivant pour afficher l'erreur
+                const errorElement = input.nextElementSibling;
+                if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                    // Afficher l'erreur
+                    errorElement.textContent = input.validationMessage;
+                    errorElement.style.display = 'block'; // Rendre visible
+                }
+                formIsValid = false; // Mettre à jour l'état global du formulaire
+            } else {
+                // Effacer les messages d'erreur pour les champs valides
+                const errorElement = input.nextElementSibling;
+                if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                    errorElement.textContent = ''; // Effacer le contenu des messages d'erreur
+                    errorElement.style.display = 'none'; // Masquer les messages d'erreur
+                }
+            }
+        });
+
+        // Soumettre le formulaire si tous les champs sont valides
+        if (formIsValid) {
+            form.submit();
+        }
+    });
+});
+</script> -->
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#registrationForm');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêcher la soumission du formulaire par défaut
+
+        // Réinitialiser les messages d'erreur existants
+        const errorMessages = form.querySelectorAll('.invalid-feedback');
+        errorMessages.forEach(errorMessage => {
+            errorMessage.textContent = ''; // Effacer le contenu des messages d'erreur
+            errorMessage.style.display = 'none'; // Masquer les messages d'erreur
+        });
+
+        // Vérifier les erreurs de chaque champ du formulaire
+        const inputs = form.querySelectorAll('input');
+        let formIsValid = true; // Définir une variable pour suivre l'état global de la validité du formulaire
+        let password = ''; // Stocker la valeur du champ de mot de passe
+        let confirmPassword = ''; // Stocker la valeur du champ de confirmation de mot de passe
+        inputs.forEach(input => {
+            if (input.type === 'password') {
+                if (input.name === 'password1') {
+                    password = input.value;
+                } else if (input.name === 'password2') {
+                    confirmPassword = input.value;
+                }
+            }
+
+            if (!input.checkValidity()) {
+                // Récupérer l'élément suivant pour afficher l'erreur
+                const errorElement = input.nextElementSibling;
+                if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                    // Afficher l'erreur
+                    errorElement.textContent = input.validationMessage;
+                    errorElement.style.display = 'block'; // Rendre visible
+                }
+                formIsValid = false; // Mettre à jour l'état global du formulaire
+            } else {
+                // Effacer les messages d'erreur pour les champs valides
+                const errorElement = input.nextElementSibling;
+                if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                    errorElement.textContent = ''; // Effacer le contenu des messages d'erreur
+                    errorElement.style.display = 'none'; // Masquer les messages d'erreur
+                }
+            }
+        });
+
+        // Vérifier si les champs de mot de passe et de confirmation de mot de passe sont identiques
+        if (password !== confirmPassword) {
+            const confirmPasswordInput = form.querySelector('input[name="password2"]');
+            const errorElement = confirmPasswordInput.nextElementSibling;
+            if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                errorElement.textContent = 'Les mots de passe ne correspondent pas';
+                errorElement.style.display = 'block'; // Rendre visible
+            }
+            formIsValid = false; // Mettre à jour l'état global du formulaire
+        }
+
+        // Soumettre le formulaire si tous les champs sont valides
+        if (formIsValid) {
+            form.submit();
+        }
+    });
+});
+
+</script>
 
 {% endblock %}

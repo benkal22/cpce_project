@@ -1,0 +1,129 @@
+{% extends 'economic_exchanges/base_login.html' %}
+
+
+{% block content %}
+
+<div class="card mb-3">
+  <div class="card-body">
+
+    <div class="pt-4 pb-2">
+      <h5 class="card-title text-center pb-0 fs-4">Créer un compte</h5>
+      <p class="text-center small">Entrer vos informations personnelles pour créer le compte</p>
+    </div>
+
+    <div class="col-12">
+      <div class="invalid-feedback"> {{ message }}</div> 
+    </div>
+
+    <form method="POST" class="row g-1 needs-validation" novalidate>
+      {% csrf_token %}
+     
+      <!-- ======= ****AFFICHAGE DES CHAMPS**** ======= -->
+      <!-- ======= Company name Field ======= -->
+      {{ form.company_name.label_tag }}
+      {{ form.company_name}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Company name Field -->
+
+      <!-- ======= Manager name ======= --> 
+      {{ form.manager_name.label_tag }}
+      {{ form.manager_name}}
+      <div class="invalid-feedback">  Svp, champ obligatoire !</div>
+      <!-- Manager name -->
+
+      <!-- ======= Photo Profile or Logo Field ======= -->
+      {{ form.profile_photo.label_tag }}
+      {{ form.profile_photo }}
+      <div class="invalid-feedback"> {{ form.manager_name.errors }}</div>
+      <!-- End Logo field -->
+
+      <!-- ======= Sector Activity ======= -->
+      {{ form.sector_label.label_tag }}
+      {{ form.sector_label }}
+      <div class="invalid-feedback"></div>
+      <!-- End Sector Activity -->
+
+      <!-- ======= Product activity ======= -->
+      {{ form.product.label_tag }}
+      {{ form.product}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Product activity -->
+
+      <!-- ======= Province Field ======= -->
+      {{ form.province.label_tag }}
+      {{ form.province}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Province Field -->
+      
+      <!-- ======= Address Field ======= -->
+      {{ form.address.label_tag }}
+      {{ form.address}}
+      <div class="invalid-feedback"> Svp, champ obligatoire ! </div>
+      <!-- End Addresse Field -->
+
+      <!-- ======= Tax Field ======= -->
+      <!-- End Tax field -->
+
+      <!-- ======= NRC Field ======= -->
+      <!-- End NRC field -->
+
+      <!-- ======= ID Nat Field ======= -->
+      <!-- End ID Nat field -->
+
+      <!-- ======= Email Field ======= -->
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      <div class="invalid-feedback">Svp, champ obligatoire !</div>
+      <!-- End Email field -->
+
+      <!-- ======= Number phone Field ======= -->
+      {{ form.phone_number.label_tag }}
+      {{ form.phone_number }}
+      <div class="invalid-feedback">Svp, champ obligatoire !</div>
+      
+      <!-- End Number phone field -->
+
+      <!-- ======= Username field ======= -->
+
+      <!-- <div class="col-12">
+      {{ form.username.label_tag }}
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">@</span>
+          {{ form.username }}
+          <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : monentreprise01)</div>
+        </div>
+      </div> -->
+      {{ form.username.label_tag }}
+      <span class="input-group-text" id="inputGroupPrepend">@</span>
+      {{ form.username }}
+      <div class="invalid-feedback">Svp, choisissez un nom d'utilisateur ! (Exemple de nom d'utilisateur : monentreprise01)</div>
+      <!-- End username field -->
+
+      <!-- ======= Password Field ======= -->
+      {{ form.password.label_tag }}
+      {{ form.password }}
+      <div class="invalid-feedback">{{form.password.errors }}Mot de passe incorrect</div>
+      <!-- End Password  field -->
+
+      <!-- ======= Confirm Password ield ======= -->
+      {{ form.confirm_password.label_tag }}
+      {{ form.confirm_password }}
+      <div class="invalid-feedback">{{form.confirm_password.errors}}Mot de passe incorrect</div>
+      <p></p>
+      <!-- Confirm Password field -->
+
+      <div class="col-12">
+        <button class="btn btn-primary w-100" type="submit">Créer compte</button>
+      </div>
+      
+      <div class="col-12">
+        <p class="small mb-0">Etes-vous prêt à démarrer ? <a href="{% url 'login' %}">Se connecter</a></p>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+
+{% endblock %}

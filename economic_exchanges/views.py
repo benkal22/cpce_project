@@ -11,11 +11,12 @@ from economic_exchanges.models.sales import Sale
 from django.shortcuts import render, redirect
 from economic_exchanges.forms import ContactUsForm, LoginForm
 from django.core.mail import send_mail
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .forms import ProducerRegistrationForm
+
+from django.urls import reverse_lazy
+from economic_exchanges.forms import ProducerRegistrationForm
+from django.views.generic import CreateView
 
 #Dashboard
 def dashboard(request):
@@ -116,59 +117,51 @@ def register_page(request):
     message = ''
     if request.method == 'POST':
         form = ProducerRegistrationForm(request.POST)
+        print("Producer c'est BON")
 
         if form.is_valid():
+            print("Form isValid c'est BON")
+
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
             if user is not None:
+                print(f'Username: {username} et Passwor: {password}')
                 login(request, user)
                 message = f'Bonjour  {user.username}, votre compte a été créé avec succès !'
             # messages.success(request, f'Bonjour {username}, votre compte a été créé avec succès !')
                 return redirect('dashboard')
             else:
+                print('Aucun username et password')
                 print(form.errors)
                 message ='Identifiants invalides'
     
     return render(request, 'registration/register.html', {'form': form, 'message': message})
-    
-    # else:
-    #     form = UserCreationForm()
-    # return render(request, 'economic_exchanges/account/register.html', {'form': form})
 
 def profile(request):
     return render(request, 'registration/profile.html')
-
-def login_page(request):
-    form = LoginForm()
-    message = ''
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(request, username=username, password=password)
-            # login(request, user)
-            if user is not None:
-                login(request, user)
-                message = f'Bonjour  {user.username}, votre compte a été créé avec succès !'
-            # messages.success(request, f'Bonjour {username}, votre compte a été créé avec succès !')
-                return redirect('producers')
-            else:
-                message ='Identifiants invalides'
-    return render(request, 'economic_exchanges/account/login.html', {'form': form, 'message': message})
-
-# def logout_user(request):
-#     logout(request)
-#     return redirect('login')
 
 @login_required
 def home(request):
     return render(request, 'economic_exchanges/dashboard.html')
 
+class ProducerRegisterView(CreateView):
+    template_name = 'registration/register.html'
+    form_class = ProducerRegistrationForm
+    success_url = reverse_lazy('dashboard')
+    #Champ de redirection
+    redirect_field_name = 'next'
+
+    def get_success_url(self) -> str:
+        redirect_to = self.request.GET.get(self.redirect_field_name)
+        if redirect_to:
+            return redirect_to
+        return super().get_success_url()
+
+
 #Faq
 def page_faq(request):
     return render(request, 'others_pages/faq.html', )
+

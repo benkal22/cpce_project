@@ -2,7 +2,6 @@ from django.db import models
 
 #Nomenclature/Secteur d'activité model
 class Product(models.Model):
-    # product_id = models.AutoField(primary_key=True)
     sector_code = models.fields.CharField(max_length=20)
     sector_label = models.fields.CharField(max_length=150)
     activity_code = models.fields.CharField(max_length=20)
@@ -11,3 +10,7 @@ class Product(models.Model):
     product_label = models.fields.CharField(max_length=150)
     def __str__(self) -> str:
         return f'{self.product_label}'
+    
+    @staticmethod
+    def get_sector_labels():
+        return Product.objects.values_list('sector_label', flat=True).distinct()

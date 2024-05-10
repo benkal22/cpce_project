@@ -12,10 +12,10 @@
 
     <form id="registrationForm" method="POST" class="row g-1 needs-validation" novalidate>
       {% csrf_token %}
-      {{form}}
+      <!-- {{form}} -->
 
       {% for field in form %}
-        <label for="" class="form-label">  {{field.label_tag}}</label>
+        <label for="" class="form-label"> {{field.label_tag}}</label>
         {{field}}
         
         <div class="invalid-feedback"></div>
@@ -23,7 +23,8 @@
       
       <!-- </div> -->
       <div>
-
+        <p>(Votre mot de passe doit contenir au moins 8 caractères, une lettre en majucusle et un chiffre. Ex. ABCdbe_123)</p>
+  
       <div class="col-12">
         <button class="btn btn-primary w-100" type="submit">Créer compte</button>
       </div>
@@ -39,7 +40,7 @@
 
 </div>
 
-<!-- <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('#registrationForm');
 
@@ -56,7 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Vérifier les erreurs de chaque champ du formulaire
         const inputs = form.querySelectorAll('input');
         let formIsValid = true; // Définir une variable pour suivre l'état global de la validité du formulaire
+        let password = ''; // Stocker la valeur du champ de mot de passe
+        let confirmPassword = ''; // Stocker la valeur du champ de confirmation de mot de passe
         inputs.forEach(input => {
+            if (input.type === 'password') {
+                if (input.name === 'password1') {
+                    password = input.value;
+                } else if (input.name === 'password2') {
+                    confirmPassword = input.value;
+                }
+            }
+
             if (!input.checkValidity()) {
                 // Récupérer l'élément suivant pour afficher l'erreur
                 const errorElement = input.nextElementSibling;
@@ -76,15 +87,37 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Vérifier si les champs de mot de passe et de confirmation de mot de passe sont identiques
+        if (password !== confirmPassword) {
+            const confirmPasswordInput = form.querySelector('input[name="password2"]');
+            const errorElement = confirmPasswordInput.nextElementSibling;
+            if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                errorElement.textContent = 'Les mots de passe ne correspondent pas';
+                errorElement.style.display = 'block'; // Rendre visible
+            }
+            formIsValid = false; // Mettre à jour l'état global du formulaire
+        }
+
+        // Vérifier les règles de validation supplémentaires pour le mot de passe
+        if (password.length < 8 || !/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
+            const errorElement = form.querySelector('.password-rules-error');
+            if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                errorElement.textContent = 'Votre mot de passe doit contenir au moins 8 caractères, une lettre et un chiffre';
+                errorElement.style.display = 'block'; // Rendre visible
+            }
+            formIsValid = false; // Mettre à jour l'état global du formulaire
+        }
+
         // Soumettre le formulaire si tous les champs sont valides
         if (formIsValid) {
             form.submit();
         }
     });
 });
-</script> -->
 
-<script>
+</script>
+
+<!-- <script>
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('#registrationForm');
@@ -150,6 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-</script>
+</script> -->
 
 {% endblock %}

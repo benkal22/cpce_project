@@ -17,14 +17,17 @@ class LoginForm(AuthenticationForm):
         self.fields['password'].widget.attrs.update({'placeholder': 'Entrez votre mot de passe'})
 
 class ProducerRegistrationForm(UserCreationForm):
+    # sector_label = forms.ChoiceField(choices=[])
+
     class Meta:
         model = Producer
-        fields = ('company_name', 'manager_name', 'profile_photo', 'product', 'province', 
+        fields = ('company_name', 'manager_name', 'province',
                   'address', 'email', 'phone_number', 'username')
         labels = {
             'company_name': "Nom de l'entreprise*",
             'manager_name': "Nom du propriétaire*",
             'profile_photo': "Logo de l'entreprise",
+            'product': "Type de produits/services*",
             'product': "Type de produits/services*",
             'address': "Adresse de l'entreprise*",
             'email': "Votre email*",
@@ -42,5 +45,3 @@ class ProducerRegistrationForm(UserCreationForm):
         if len(company_name) < 3:
             raise forms.ValidationError("Le nom de l'entreprise doit comporter au moins 3 caractères.")
         return company_name
-
-    # Ajoutez des méthodes clean_<field>() personnalisées pour valider d'autres champs si nécessaire

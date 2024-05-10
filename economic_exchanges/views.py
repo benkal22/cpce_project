@@ -149,10 +149,15 @@ def home(request):
 
 class ProducerRegisterView(CreateView):
     template_name = 'registration/register.html'
+    # Récupérer tous les sector_label de la table Product
+    sector_labels = Producer.objects.values_list('product__sector_label', flat=True).distinct()
+    # form_class = ProducerRegistrationForm(sector_labels = sector_labels)
     form_class = ProducerRegistrationForm
     success_url = reverse_lazy('dashboard')
     #Champ de redirection
     redirect_field_name = 'next'
+
+    
 
     def get_success_url(self) -> str:
         redirect_to = self.request.GET.get(self.redirect_field_name)

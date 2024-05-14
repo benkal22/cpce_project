@@ -20,6 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "node_modules"),
     os.path.join(BASE_DIR, "assets"),
+    os.path.join(BASE_DIR, "static"),
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'economic_exchanges',
     'authentification',
 ]
@@ -128,6 +130,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Sauvegarde des médias
+MEDIA_URL = '/assets/img/'
+MEDIA_ROOT = BASE_DIR.joinpath('assets/img')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

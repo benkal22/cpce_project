@@ -1,16 +1,26 @@
 from django.db import models
 
-#Nomenclature/Secteur d'activité model
 class Product(models.Model):
-    sector_code = models.fields.CharField(max_length=20)
-    sector_label = models.fields.CharField(max_length=150)
-    activity_code = models.fields.CharField(max_length=20)
-    activity_label = models.fields.CharField(max_length=150)
-    product_code = models.fields.CharField(max_length=20)
-    product_label = models.fields.CharField(max_length=150)
-    def __str__(self) -> str:
-        return f'{self.product_label}'
+    sector_code = models.CharField(max_length=20)
+    sector_label = models.CharField(max_length=150)
+    activity_code = models.CharField(max_length=20)
+    activity_label = models.CharField(max_length=150)
+    product_code = models.CharField(max_length=20)
+    product_label = models.CharField(max_length=150)
+    
+    def __str__(self):
+        return self.product_label
     
     @staticmethod
-    def get_sector_labels():
-        return Product.objects.values_list('sector_label', flat=True).distinct()
+    def clean_labels():
+        # Récupérer tous les enregistrements de Product
+        products = Product.objects.all()
+
+        # Parcourir chaque enregistrement et nettoyer les labels
+        for product in products:
+            product.sector_label = product.sector_label.strip()
+            product.activity_label = product.activity_label.strip()
+            product.product_label = product.product_label.strip()
+            
+            # Enregistrer les modifications
+            product.save()

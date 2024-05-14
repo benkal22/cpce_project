@@ -5,7 +5,7 @@
   <h1>Questions fréquement posées</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Accueil</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' user.pk %}">Accueil</a></li>
       <!-- <li class="breadcrumb-item">Pages</li> -->
       <li class="breadcrumb-item active">Foire Aux Questions</li>
     </ol>
@@ -23,8 +23,6 @@
       <div class="card basic">
         <div class="card-body">
           <h5 class="card-title">Questions fréquement posées</h5>
-         
-          
            
           <div>
             <h6>1. Quels sont les avantages de l'application pour les opérateurs économiques de la RDC ?</h6>
@@ -114,7 +112,7 @@
                 <div class="accordion-body">
                   N'hésitez pas à nous contacter pour toute question ou préoccupation. Nous sommes là pour vous aider !</div>
                   <p class="small mb-0"></p>
-                  <a href="{% url 'contact' %}" class="btn btn-primary w-50">Nous contacter !</a>
+                  <a href="{% url 'contact' user.pk%}" class="btn btn-primary w-50">Nous contacter !</a>
                 </div>
             </div>
 

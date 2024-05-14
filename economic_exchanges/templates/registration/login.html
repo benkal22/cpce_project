@@ -11,7 +11,7 @@
             <p class="text-center small">Entrer votre nom d'utilisateur et mot de passe pour se connecter</p>
         </div>
 
-        <form id="loginForm" method="post" class="row g-3 needs-validation" novalidate>
+        <form id="loginForm" method="post" class="row g-3 needs-validation" action="{% url 'login' %}" novalidate>
             {% csrf_token %}
             {{ form }}
 

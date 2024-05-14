@@ -13,12 +13,15 @@ from economic_exchanges.models.provinces import Province
 # class ProducerAdmin(admin.ModelAdmin):
 #     list_display = ('id', 'company_name', 'manager_name', 'address', 'tax_code', 'nrc', 'nat_id', 'email', 'phone_number', 'province', 'product_id')
 
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'sector_code', 'sector_label', 'activity_code', 'activity_label', 'product_code', 
+                    'product_label')
+
 admin.site.register(Producer)
-admin.site.register(Product)
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Supplier)
 admin.site.register(CompanyClient)
 admin.site.register(PersonalClient)
 admin.site.register(Purchase)
 admin.site.register(Sale)
 admin.site.register(Province)
-

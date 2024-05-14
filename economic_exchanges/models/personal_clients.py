@@ -11,5 +11,6 @@ class PersonalClient(models.Model):
     phone_number = models.fields.CharField(max_length=20, null=True)
     country = models.fields.CharField(max_length=100)
     province = models.fields.CharField(max_length=100)
+    
     def __str__(self) -> str:
         return f'{self.personal_client_name}'

@@ -1,6 +1,7 @@
 from django.db import models
 from economic_exchanges.models.products import Product
 from economic_exchanges.models.producers import Producer
+from economic_exchanges.models.provinces import Province
 
 #CompanyClient
 class CompanyClient(models.Model):
@@ -17,6 +18,7 @@ class CompanyClient(models.Model):
     email = models.fields.CharField(max_length=100, null=True)
     phone_number = models.fields.CharField(max_length=20, null=True)
     country = models.fields.CharField(max_length=100)
-    province = models.fields.CharField(max_length=100)
+    province = models.ForeignKey(Province, null=True, on_delete=models.CASCADE, related_name='company_client_province')
+
     def __str__(self) -> str:
         return f'{self.company_name}'

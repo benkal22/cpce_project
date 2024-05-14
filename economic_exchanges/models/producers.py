@@ -15,40 +15,9 @@ class Producer(AbstractUser):
     nat_id = models.fields.CharField(max_length=100, blank=True, null=True)
     phone_number = models.fields.CharField(max_length=20)
     province = models.ForeignKey(Province, null=True, on_delete=models.CASCADE, related_name='producer_province')
-    product = models.ManyToManyField(Product)
+    product = models.ManyToManyField(Product, blank=True) 
+    sector_label =  models.fields.CharField(blank=True, null=True, max_length=200)
+
 
     def __str__(self) -> str:
         return f'{self.company_name}'
-    # def sector_label(self):
-    #     return self.product.sector_label
-    # sector_label.short_description = "Secteur d'activité"
-
-    # def sector_code(self):
-    #     if self.product:
-    #         return self.product.sector_code
-    #     return None
-
-    # def sector_label(self):
-    #     if self.product:
-    #         return self.product.sector_label
-    #     return None
-
-    # def activity_code(self):
-    #     if self.product:
-    #         return self.product.activity_code
-    #     return None
-
-    # def activity_label(self):
-    #     if self.product:
-    #         return self.product.activity_label
-    #     return None
-
-    # def product_code(self):
-    #     if self.product:
-    #         return self.product.product_code
-    #     return None
-
-    # def product_label(self):
-    #     if self.product:
-    #         return self.product.product_label
-    #     return None

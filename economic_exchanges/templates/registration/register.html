@@ -1,119 +1,188 @@
 {% extends 'economic_exchanges/base_login.html' %}
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+    var sectorLabelSelect = document.getElementById("id_sector_label");
+    var productLabelSelect = document.getElementById("id_product_label");
+
+    sectorLabelSelect.addEventListener("change", function() {
+        var selectedSectorLabel = sectorLabelSelect.value;
+
+        console.log("Selected sector_label:", selectedSectorLabel);  // Ajout pour le débogage
+        
+        if (selectedSectorLabel) {
+            var xhr = new XMLHttpRequest();
+            var url = "/get_product_labels/?sector_label=" + encodeURIComponent(selectedSectorLabel);
+            console.log("Request URL:", url);  // Ajout pour le débogage
+
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    console.log("XHR status:", xhr.status);  // Ajout pour le débogage
+
+                    if (xhr.status == 200) {
+                        try {
+                            var productLabels = JSON.parse(xhr.responseText);
+                            console.log("Product labels:", productLabels);  // Ajout pour le débogage
+
+                            productLabelSelect.innerHTML = "";
+                            productLabels.forEach(function(label) {
+                                var option = document.createElement("option");
+                                option.text = label;
+                                option.value = label;
+                                productLabelSelect.add(option);
+                            });
+                        } catch (e) {
+                            console.error("Error parsing response JSON:", e);  // Ajout pour le débogage
+                        }
+                    } else {
+                        console.error("XHR error:", xhr.status, xhr.statusText);  // Ajout pour le débogage
+                    }
+                }
+            };
+            xhr.send();
+        } else {
+            // Clear product_label options if no sector_label is selected
+            productLabelSelect.innerHTML = "";
+        }
+    });
+});
+
+</script>
 
 <div class="card mb-3">
-  <div class="card-body">
+    <div class="card-body">
 
-    <div class="pt-4 pb-2">
-      <h5 class="card-title text-center pb-0 fs-4">Créer un compte</h5>
-      <p class="text-center small">Entrer vos informations personnelles pour créer le compte</p>
+        <div class="pt-4 pb-2">
+            <h5 class="card-title text-center pb-0 fs-4">Créer un compte</h5>
+            <p class="text-center small">Entrer vos informations personnelles pour créer le compte</p>
+        </div>
+
+        <form id="registrationForm" method="POST" class="row g-1 needs-validation" novalidate>
+            {% csrf_token %}
+            <!-- {{form}} -->
+
+            {% for field in form %}
+            <label for="" class="form-label"> {{field.label_tag}}</label>
+            {{field}}
+
+            <div class="invalid-feedback"></div>
+            {% endfor %}
+
+            <!-- {{ product_formset.management_form }}
+            <fieldset>
+                <legend>Products</legend>
+                {{ product_formset.as_p }}
+            </fieldset> -->
+
+            <!-- <fieldset>
+                <legend>Products</legend>
+                {{ form.product_label.label_tag }}
+                <select name="product" id="id_product">
+                    <option value="">---------</option>
+                </select>
+                <p></p>
+                {{ form.sector_label.label_tag }}
+                {{ form.sector_label }}
+
+            </fieldset> -->
+
+            <!-- </div> -->
+            <div>
+                <p>(Votre mot de passe doit contenir au moins 8 caractères, une lettre en majucusle et un chiffre. Ex.
+                    ABCdbe_123)</p>
+
+                <div class="col-12">
+                    <button class="btn btn-primary w-100" type="submit">Créer compte</button>
+                </div>
+
+                <div class="col-12">
+                    <p class="small mb-0">Etes-vous prêt à démarrer ? <a href="{% url 'login' %}">Se connecter</a></p>
+                </div>
+        </form>
+
     </div>
-
-    <form id="registrationForm" method="POST" class="row g-1 needs-validation" novalidate>
-      {% csrf_token %}
-      <!-- {{form}} -->
-
-      {% for field in form %}
-        <label for="" class="form-label"> {{field.label_tag}}</label>
-        {{field}}
-        
-        <div class="invalid-feedback"></div>
-      {% endfor %}
-      
-      <!-- </div> -->
-      <div>
-        <p>(Votre mot de passe doit contenir au moins 8 caractères, une lettre en majucusle et un chiffre. Ex. ABCdbe_123)</p>
-  
-      <div class="col-12">
-        <button class="btn btn-primary w-100" type="submit">Créer compte</button>
-      </div>
-
-      <div class="col-12">
-        <p class="small mb-0">Etes-vous prêt à démarrer ? <a href="{% url 'login' %}">Se connecter</a></p>
-      </div>
-    </form>
-
-  </div>
 </div>
 <!-- <div> -->
 
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('#registrationForm');
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('#registrationForm');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Empêcher la soumission du formulaire par défaut
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Empêcher la soumission du formulaire par défaut
 
-        // Réinitialiser les messages d'erreur existants
-        const errorMessages = form.querySelectorAll('.invalid-feedback');
-        errorMessages.forEach(errorMessage => {
-            errorMessage.textContent = ''; // Effacer le contenu des messages d'erreur
-            errorMessage.style.display = 'none'; // Masquer les messages d'erreur
-        });
+            // Réinitialiser les messages d'erreur existants
+            const errorMessages = form.querySelectorAll('.invalid-feedback');
+            errorMessages.forEach(errorMessage => {
+                errorMessage.textContent = ''; // Effacer le contenu des messages d'erreur
+                errorMessage.style.display = 'none'; // Masquer les messages d'erreur
+            });
 
-        // Vérifier les erreurs de chaque champ du formulaire
-        const inputs = form.querySelectorAll('input');
-        let formIsValid = true; // Définir une variable pour suivre l'état global de la validité du formulaire
-        let password = ''; // Stocker la valeur du champ de mot de passe
-        let confirmPassword = ''; // Stocker la valeur du champ de confirmation de mot de passe
-        inputs.forEach(input => {
-            if (input.type === 'password') {
-                if (input.name === 'password1') {
-                    password = input.value;
-                } else if (input.name === 'password2') {
-                    confirmPassword = input.value;
+            // Vérifier les erreurs de chaque champ du formulaire
+            const inputs = form.querySelectorAll('input');
+            let formIsValid = true; // Définir une variable pour suivre l'état global de la validité du formulaire
+            let password = ''; // Stocker la valeur du champ de mot de passe
+            let confirmPassword = ''; // Stocker la valeur du champ de confirmation de mot de passe
+            inputs.forEach(input => {
+                if (input.type === 'password') {
+                    if (input.name === 'password1') {
+                        password = input.value;
+                    } else if (input.name === 'password2') {
+                        confirmPassword = input.value;
+                    }
                 }
-            }
 
-            if (!input.checkValidity()) {
-                // Récupérer l'élément suivant pour afficher l'erreur
-                const errorElement = input.nextElementSibling;
+                if (!input.checkValidity()) {
+                    // Récupérer l'élément suivant pour afficher l'erreur
+                    const errorElement = input.nextElementSibling;
+                    if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                        // Afficher l'erreur
+                        errorElement.textContent = input.validationMessage;
+                        errorElement.style.display = 'block'; // Rendre visible
+                    }
+                    formIsValid = false; // Mettre à jour l'état global du formulaire
+                } else {
+                    // Effacer les messages d'erreur pour les champs valides
+                    const errorElement = input.nextElementSibling;
+                    if (errorElement && errorElement.classList.contains('invalid-feedback')) {
+                        errorElement.textContent = ''; // Effacer le contenu des messages d'erreur
+                        errorElement.style.display = 'none'; // Masquer les messages d'erreur
+                    }
+                }
+            });
+
+            // Vérifier si les champs de mot de passe et de confirmation de mot de passe sont identiques
+            if (password !== confirmPassword) {
+                const confirmPasswordInput = form.querySelector('input[name="password2"]');
+                const errorElement = confirmPasswordInput.nextElementSibling;
                 if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-                    // Afficher l'erreur
-                    errorElement.textContent = input.validationMessage;
+                    errorElement.textContent = 'Les mots de passe ne correspondent pas';
                     errorElement.style.display = 'block'; // Rendre visible
                 }
                 formIsValid = false; // Mettre à jour l'état global du formulaire
-            } else {
-                // Effacer les messages d'erreur pour les champs valides
-                const errorElement = input.nextElementSibling;
+            }
+
+            // Vérifier les règles de validation supplémentaires pour le mot de passe
+            if (password.length < 8 || !/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
+                const errorElement = form.querySelector('.password-rules-error');
                 if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-                    errorElement.textContent = ''; // Effacer le contenu des messages d'erreur
-                    errorElement.style.display = 'none'; // Masquer les messages d'erreur
+                    errorElement.textContent = 'Votre mot de passe doit contenir au moins 8 caractères, une lettre et un chiffre';
+                    errorElement.style.display = 'block'; // Rendre visible
                 }
+                formIsValid = false; // Mettre à jour l'état global du formulaire
+            }
+
+            // Soumettre le formulaire si tous les champs sont valides
+            if (formIsValid) {
+                form.submit();
             }
         });
-
-        // Vérifier si les champs de mot de passe et de confirmation de mot de passe sont identiques
-        if (password !== confirmPassword) {
-            const confirmPasswordInput = form.querySelector('input[name="password2"]');
-            const errorElement = confirmPasswordInput.nextElementSibling;
-            if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-                errorElement.textContent = 'Les mots de passe ne correspondent pas';
-                errorElement.style.display = 'block'; // Rendre visible
-            }
-            formIsValid = false; // Mettre à jour l'état global du formulaire
-        }
-
-        // Vérifier les règles de validation supplémentaires pour le mot de passe
-        if (password.length < 8 || !/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
-            const errorElement = form.querySelector('.password-rules-error');
-            if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-                errorElement.textContent = 'Votre mot de passe doit contenir au moins 8 caractères, une lettre et un chiffre';
-                errorElement.style.display = 'block'; // Rendre visible
-            }
-            formIsValid = false; // Mettre à jour l'état global du formulaire
-        }
-
-        // Soumettre le formulaire si tous les champs sont valides
-        if (formIsValid) {
-            form.submit();
-        }
     });
-});
 
 </script>
 

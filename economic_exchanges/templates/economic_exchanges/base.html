@@ -36,15 +36,21 @@
 
     <!-- Template Main CSS File -->
     <link href="{% static '/css/style.css' %}" rel="stylesheet">
+    
+    <!-- AJAX et JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
     {% if user.is_authenticated %}
+
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center">
+            <a href="{% url 'dashboard' user.pk %}" class="logo d-flex align-items-center">
                 <img src="{% static '/img/logo.png' %}" alt="">
                 <span class="d-none d-lg-block">eCO</span>
             </a>
@@ -211,7 +217,12 @@
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="{% static '/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+                        {% comment %} <img src="{% static '/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle"> {% endcomment %}
+                        {% if producer.profile_photo %}
+                            <img src="{{ producer.profile_photo.url }}" alt="Profile Photo" class="rounded-circle">
+                        {% else %}
+                            <img src="{% static '/img/profile-img-default.jpg' %}" alt="Profile Photo" class="rounded-circle">
+                        {% endif %}
                         <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.username }}</span>
                     </a><!-- End Profile Iamge Icon -->
 
@@ -225,9 +236,9 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{% url 'profile' %}">
-                                <i class="bi bi-person"></i>
-                                <span>Mon Profile</span>
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'producer_detail' producer.id %}">        
+                            <i class="bi bi-person"></i>
+                            <span>Mon Profile</span>
                             </a>
                         </li>
                         <li>
@@ -245,7 +256,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{% url 'faq' %}">
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'faq' user.pk %}">
                                 <i class="bi bi-question-circle"></i>
                                 <span>Besoin d'aide ?</span>
                             </a>
@@ -282,7 +293,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="{% url 'dashboard' %}">
+                <a class="nav-link " href="{% url 'dashboard' user.pk %}">
                     <i class="bi bi-grid"></i>
                     <span>Tableau de bord</span>
                 </a>
@@ -347,7 +358,7 @@
                 </a>
                 <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="{% url 'product-list' %}">
+                        <a href="{% url 'product_detail' user.pk %}">
                             <i class="bi bi-circle"></i><span>Mon secteur</span>
                         </a>
                     </li>
@@ -357,21 +368,21 @@
             <li class="nav-heading">Liens rapides</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'profile' %}">
+                <a class="nav-link collapsed" href="{% url 'producer_detail' user.id %}">
                     <i class="bi bi-person"></i>
                     <span>Mon entreprise</span>
                 </a>
             </li><!-- End Profile Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'contact' %}">
+                <a class="nav-link collapsed" href="{% url 'contact' user.pk %}">
                     <i class="bi bi-envelope"></i>
                     <span>Contactez le ministère</span>
                 </a>
             </li><!-- End Contact Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'faq' %}">
+                <a class="nav-link collapsed" href="{% url 'faq' user.pk %}">
                     <i class="bi bi-question-circle"></i>
                     <span>F.A.Q</span>
                 </a>

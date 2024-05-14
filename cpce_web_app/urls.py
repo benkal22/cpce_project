@@ -17,20 +17,30 @@ Including another URLconf
 from django.contrib import admin
 from economic_exchanges import views
 from django.urls import path, include
-from django.views.generic import CreateView
-from economic_exchanges.views import ProducerRegisterView 
-
+from economic_exchanges.views import ProducerRegisterView, ProducerLoginView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('dashboard/', views.dashboard, name='dashboard'),
+    path('dashboard/<int:pk>/', views.dashboard, name='dashboard'),
 
-    path('product/', views.product_home, name='product-list'),
-    path('product/<int:id>/', views.product_detail, name='product-detail'),
+    # path('product/', views.product_home, name='product-list'),
+    # path('product/<int:id>/', views.product_detail, name='product-detail'),
+    # PRODUCT
+    # path('products/', views.product_list, name='product_list'),
+    # path('products/<int:pk>/', views.product_detail, name='product_detail'),
+    # path('products/new/', views.product_create, name='product_create'),
+    # path('products/<int:pk>/edit/', views.product_update, name='product_update'),
+    # path('products/<int:pk>/delete/', views.product_delete, name='product_delete'),
 
-    path('producer/', views.producer_home, name='producer-list'),
-    path('producer/<int:id>/', views.producer_detail, name='producer-detail'),
+    # PRODUCER
+    path('producers/', views.producer_list, name='producer_list'),
+    path('producers/<int:pk>/', views.producer_detail, name='producer_detail'),
+    path('producers/new/', views.producer_create, name='producer_create'),
+    path('producers/<int:pk>/edit/', views.producer_update, name='producer_update'),
+    path('producers/<int:pk>/delete/', views.producer_delete, name='producer_delete'),
 
     path('supplier/', views.supplier_home, name='supplier-list'),
     path('supplier/<int:id>/', views.supplier_detail, name='supplier-detail'),
@@ -44,19 +54,23 @@ urlpatterns = [
     path('declaration/purch<int:id>/', views.declaration_purchase_detail, name='declaration-purchase-detail'),
     path('declaration/sal<int:id>/', views.declaration_sale_detail, name='declaration-sale-detail'),
 
-    path('contact/', views.contact, name='contact'),
-    path('contact-sent/', views.contact_sent, name='contact-sent'),
+    path('contact/<int:pk>/', views.contact, name='contact'),   
+    path('contact-sent/<int:pk>/', views.contact_sent, name='contact-sent'),
 
     # Login
-    # path('login/', views.login_page, name='login'),
-    # path('accounts/register/', views.register_page, name='register'),
-    # path('accounts/register/', CreateView.as_view(template_name='registration/register.html', form_class=ProducerRegistrationForm), name='register'),
     path('accounts/register/', ProducerRegisterView.as_view(), name='register'),
+    path('accounts/login/', ProducerLoginView.as_view(), name='login'),
+    path('get_product_labels/', views.get_product_labels, name='get_product_labels'),
     # path('profile<int:id>/', views.profile, name='profile'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', views.profile, name='profile'),
+    
 
     #Others pages
-    path('faq/', views.page_faq, name='faq'),
+    path('faq/<int:pk>/', views.page_faq, name='faq'),
+    
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

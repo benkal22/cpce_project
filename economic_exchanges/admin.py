@@ -16,8 +16,20 @@ from economic_exchanges.models.provinces import Province
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'sector_code', 'sector_label', 'activity_code', 'activity_label', 'product_code', 
                     'product_label')
+    
+class ProductInline(admin.TabularInline):
+    model = Producer.product.through
+    extra = 1
 
-admin.site.register(Producer)
+class ProducerAdmin(admin.ModelAdmin):
+    inlines = [
+        ProductInline,
+    ]
+
+admin.site.register(Producer, ProducerAdmin)
+# admin.site.register(Product)
+
+# admin.site.register(Producer)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Supplier)
 admin.site.register(CompanyClient)

@@ -17,7 +17,7 @@ class Producer(AbstractUser):
     province = models.ForeignKey(Province, null=True, on_delete=models.CASCADE, related_name='producer_province')
     product = models.ManyToManyField(Product, blank=True) 
     sector_label =  models.fields.CharField(blank=True, null=True, max_length=200)
-
+    about =  models.fields.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self) -> str:
         return f'{self.company_name}'

@@ -1,0 +1,80 @@
+{% extends 'economic_exchanges/base.html' %}
+{% load static %}
+
+{% block page_title %}
+<div class="pagetitle">
+    <h1>Profile</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' user.pk %}">Accueil</a></li>
+            <li class="breadcrumb-item active">Profile</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+{% endblock %}
+
+{% block content %}
+
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-3">
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center text-center">
+                    {% if producer.profile_photo %}
+                        <img src="{{ producer.profile_photo.url }}" alt="Profile Photo" class="rounded-circle">
+                    {% else %}
+                        <img src="{% static 'img/profile-img-default.jpg' %}" alt="Profile Photo" class="rounded-circle">
+                    {% endif %}
+                    <h2>{{ user.username }}</h2>
+                    <h3>{{ producer.sector_label }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-body pt-3">
+                    <!-- Bordered Tabs -->
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'detail' %}active{% endif %}" href="{% url 'producer_detail' producer.id %}?tab=detail">Vue d'ensemble</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'edit' %}active{% endif %}" href="{% url 'producer_edit' producer.id %}?tab=edit">Modifier Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'settings' %}active{% endif %}" href="{% url 'producer_settings' producer.id %}?tab=settings">Paramètres</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'change_password' %}active{% endif %}" href="{% url 'producer_change_password' producer.id %}?tab=change_password">Changer mot de passe</a>
+                        </li>
+                        {% comment %} <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'delete' %}active{% endif %}" href="{% url 'producer_delete' producer.id %}?tab=delete">Supprimer le profil</a>
+                        </li> {% endcomment %}
+                    </ul>
+
+                    <div class="tab-content pt-2">
+                        {% if active_tab == 'detail' %}
+                            {% block content_profile_detail %}
+                            {% endblock %}
+                        {% elif active_tab == 'edit' %}
+                            {% block content_profile_edit %}
+                            {% endblock %}
+                        {% elif active_tab == 'settings' %}
+                            {% block content_profile_settings %}
+                            {% endblock %}
+                        {% elif active_tab == 'change_password' %}
+                            {% block content_profile_change_password %}
+                            {% endblock %}
+                        {% comment %} {% elif active_tab == 'delete' %}
+                            {% block content_profile_delete %}
+                            {% endblock %} {% endcomment %}
+                        {% endif %}
+                    </div><!-- End Bordered Tabs -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

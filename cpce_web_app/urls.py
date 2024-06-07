@@ -17,57 +17,61 @@ Including another URLconf
 from django.contrib import admin
 from economic_exchanges import views
 from django.urls import path, include
-from economic_exchanges.views import ProducerRegisterView, ProducerLoginView
+from economic_exchanges.views import base_views
+from economic_exchanges.views import client_views
+from economic_exchanges.views import contact_views
+from economic_exchanges.views import declaration_views
+from economic_exchanges.views import producer_views
+from economic_exchanges.views import product_views
+from economic_exchanges.views import supplier_views
+
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('dashboard/<int:pk>/', views.dashboard, name='dashboard'),
+    path('dashboard/<int:pk>/', base_views.dashboard, name='dashboard'),
 
-    # path('product/', views.product_home, name='product-list'),
-    # path('product/<int:id>/', views.product_detail, name='product-detail'),
-    # PRODUCT
-    # path('products/', views.product_list, name='product_list'),
-    # path('products/<int:pk>/', views.product_detail, name='product_detail'),
-    # path('products/new/', views.product_create, name='product_create'),
-    # path('products/<int:pk>/edit/', views.product_update, name='product_update'),
-    # path('products/<int:pk>/delete/', views.product_delete, name='product_delete'),
+    path('products/<int:pk>/', product_views.product_detail, name='product_detail'),
 
     # PRODUCER
-    path('producers/', views.producer_list, name='producer_list'),
-    path('producers/<int:pk>/', views.producer_detail, name='producer_detail'),
-    path('producers/new/', views.producer_create, name='producer_create'),
-    path('producers/<int:pk>/edit/', views.producer_update, name='producer_update'),
-    path('producers/<int:pk>/delete/', views.producer_delete, name='producer_delete'),
+    # path('producers/', producer_views.producer_list, name='producer_list'),
+    # path('producers/<int:id>/', producer_views.producer_base, name='producer_base'),
+    path('producers/<int:id>/', producer_views.producer_detail, name='producer_detail'),
+    path('producers/new/', producer_views.producer_create, name='producer_create'),
+    path('producers/<int:id>/edit/', producer_views.producer_edit, name='producer_edit'),
+    path('producer/<int:id>/settings/', producer_views.producer_update_settings, name='producer_settings'),
+    path('producer/<int:id>/change_password/', producer_views.producer_change_password, name='producer_change_password'),
+    path('producer/<int:id>/delete/', producer_views.producer_delete, name='producer_delete'),
+    path('get_product_labels/', producer_views.get_product_labels, name='get_product_labels'),
 
-    path('supplier/', views.supplier_home, name='supplier-list'),
-    path('supplier/<int:id>/', views.supplier_detail, name='supplier-detail'),
-    path('supplier/add/', views.supplier_create, name='supplier-create'),
+    path('supplier/', supplier_views.supplier_home, name='supplier-list'),
+    path('supplier/<int:id>/', supplier_views.supplier_detail, name='supplier-detail'),
+    path('supplier/add/', supplier_views.supplier_create, name='supplier-create'),
 
-    path('client/', views.client_home, name='client-list'),
-    path('client/comp<int:id>/', views.client_company_detail, name='client-company-detail'),
-    path('client/pers<int:id>/', views.client_personal_detail, name='client-personal-detail'),
+    path('client/', client_views.client_home, name='client-list'),
+    path('client/comp<int:id>/', client_views.client_company_detail, name='client-company-detail'),
+    path('client/pers<int:id>/', client_views.client_personal_detail, name='client-personal-detail'),
 
-    path('declaration/', views.declaration_home, name='purchases-sales'),
-    path('declaration/purch<int:id>/', views.declaration_purchase_detail, name='declaration-purchase-detail'),
-    path('declaration/sal<int:id>/', views.declaration_sale_detail, name='declaration-sale-detail'),
+    path('declaration/', declaration_views.declaration_home, name='purchases-sales'),
+    path('declaration/purch<int:id>/', declaration_views.declaration_purchase_detail, name='declaration-purchase-detail'),
+    path('declaration/sal<int:id>/', declaration_views.declaration_sale_detail, name='declaration-sale-detail'),
 
-    path('contact/<int:pk>/', views.contact, name='contact'),   
-    path('contact-sent/<int:pk>/', views.contact_sent, name='contact-sent'),
+    path('contact/<int:pk>/', contact_views.contact, name='contact'),   
+    path('contact-sent/<int:pk>/', contact_views.contact_sent, name='contact-sent'),
 
     # Login
-    path('accounts/register/', ProducerRegisterView.as_view(), name='register'),
-    path('accounts/login/', ProducerLoginView.as_view(), name='login'),
-    path('get_product_labels/', views.get_product_labels, name='get_product_labels'),
+    path('accounts/register/', producer_views.ProducerRegisterView.as_view(), name='register'),
+    path('accounts/login/', producer_views.ProducerLoginView.as_view(), name='login'),
+    path('get_product_labels/', producer_views.get_product_labels, name='get_product_labels'),
     # path('profile<int:id>/', views.profile, name='profile'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/profile/', views.profile, name='profile'),
+    # path('accounts/profile/', producer_views.profile, name='profile'),
     
 
     #Others pages
-    path('faq/<int:pk>/', views.page_faq, name='faq'),
+    path('faq/<int:pk>/', base_views.page_faq, name='faq'),
     
 
 ]

@@ -34,17 +34,23 @@ urlpatterns = [
     path('dashboard/<int:pk>/', base_views.dashboard, name='dashboard'),
 
     path('products/<int:pk>/', product_views.product_detail, name='product_detail'),
-
+    
+    # Login
+    path('accounts/register/', producer_views.ProducerRegisterView.as_view(), name='register'),
+    path('accounts/login/', producer_views.ProducerLoginView.as_view(), name='login'),
+    path('get_product_labels/', producer_views.get_product_labels, name='get_product_labels'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    
     # PRODUCER
     # path('producers/', producer_views.producer_list, name='producer_list'),
-    # path('producers/<int:id>/', producer_views.producer_base, name='producer_base'),
     path('producers/<int:id>/', producer_views.producer_detail, name='producer_detail'),
-    path('producers/new/', producer_views.producer_create, name='producer_create'),
+    # path('accounts/register/', producer_views.producer_create, name='register'),
     path('producers/<int:id>/edit/', producer_views.producer_edit, name='producer_edit'),
     path('producer/<int:id>/settings/', producer_views.producer_update_settings, name='producer_settings'),
     path('producer/<int:id>/change_password/', producer_views.producer_change_password, name='producer_change_password'),
     path('producer/<int:id>/delete/', producer_views.producer_delete, name='producer_delete'),
     path('get_product_labels/', producer_views.get_product_labels, name='get_product_labels'),
+    path('ajax/load-products/', producer_views.load_products, name='ajax_load_products'),
 
     path('supplier/', supplier_views.supplier_home, name='supplier-list'),
     path('supplier/<int:id>/', supplier_views.supplier_detail, name='supplier-detail'),
@@ -61,13 +67,7 @@ urlpatterns = [
     path('contact/<int:pk>/', contact_views.contact, name='contact'),   
     path('contact-sent/<int:pk>/', contact_views.contact_sent, name='contact-sent'),
 
-    # Login
-    path('accounts/register/', producer_views.ProducerRegisterView.as_view(), name='register'),
-    path('accounts/login/', producer_views.ProducerLoginView.as_view(), name='login'),
-    path('get_product_labels/', producer_views.get_product_labels, name='get_product_labels'),
-    # path('profile<int:id>/', views.profile, name='profile'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/profile/', producer_views.profile, name='profile'),
+
     
 
     #Others pages

@@ -62,34 +62,12 @@
 
         <form id="registrationForm" method="POST" class="row g-1 needs-validation" novalidate>
             {% csrf_token %}
-            <!-- {{form}} -->
-
             {% for field in form %}
             <label for="" class="form-label"> {{field.label_tag}}</label>
             {{field}}
 
             <div class="invalid-feedback"></div>
             {% endfor %}
-
-            <!-- {{ product_formset.management_form }}
-            <fieldset>
-                <legend>Products</legend>
-                {{ product_formset.as_p }}
-            </fieldset> -->
-
-            <!-- <fieldset>
-                <legend>Products</legend>
-                {{ form.product_label.label_tag }}
-                <select name="product" id="id_product">
-                    <option value="">---------</option>
-                </select>
-                <p></p>
-                {{ form.sector_label.label_tag }}
-                {{ form.sector_label }}
-
-            </fieldset> -->
-
-            <!-- </div> -->
             <div>
                 <p>(Votre mot de passe doit contenir au moins 8 caractères, une lettre en majucusle et un chiffre. Ex.
                     ABCdbe_123)</p>
@@ -185,73 +163,5 @@
     });
 
 </script>
-
-<!-- <script>
-
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('#registrationForm');
-
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Empêcher la soumission du formulaire par défaut
-
-        // Réinitialiser les messages d'erreur existants
-        const errorMessages = form.querySelectorAll('.invalid-feedback');
-        errorMessages.forEach(errorMessage => {
-            errorMessage.textContent = ''; // Effacer le contenu des messages d'erreur
-            errorMessage.style.display = 'none'; // Masquer les messages d'erreur
-        });
-
-        // Vérifier les erreurs de chaque champ du formulaire
-        const inputs = form.querySelectorAll('input');
-        let formIsValid = true; // Définir une variable pour suivre l'état global de la validité du formulaire
-        let password = ''; // Stocker la valeur du champ de mot de passe
-        let confirmPassword = ''; // Stocker la valeur du champ de confirmation de mot de passe
-        inputs.forEach(input => {
-            if (input.type === 'password') {
-                if (input.name === 'password1') {
-                    password = input.value;
-                } else if (input.name === 'password2') {
-                    confirmPassword = input.value;
-                }
-            }
-
-            if (!input.checkValidity()) {
-                // Récupérer l'élément suivant pour afficher l'erreur
-                const errorElement = input.nextElementSibling;
-                if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-                    // Afficher l'erreur
-                    errorElement.textContent = input.validationMessage;
-                    errorElement.style.display = 'block'; // Rendre visible
-                }
-                formIsValid = false; // Mettre à jour l'état global du formulaire
-            } else {
-                // Effacer les messages d'erreur pour les champs valides
-                const errorElement = input.nextElementSibling;
-                if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-                    errorElement.textContent = ''; // Effacer le contenu des messages d'erreur
-                    errorElement.style.display = 'none'; // Masquer les messages d'erreur
-                }
-            }
-        });
-
-        // Vérifier si les champs de mot de passe et de confirmation de mot de passe sont identiques
-        if (password !== confirmPassword) {
-            const confirmPasswordInput = form.querySelector('input[name="password2"]');
-            const errorElement = confirmPasswordInput.nextElementSibling;
-            if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-                errorElement.textContent = 'Les mots de passe ne correspondent pas';
-                errorElement.style.display = 'block'; // Rendre visible
-            }
-            formIsValid = false; // Mettre à jour l'état global du formulaire
-        }
-
-        // Soumettre le formulaire si tous les champs sont valides
-        if (formIsValid) {
-            form.submit();
-        }
-    });
-});
-
-</script> -->
 
 {% endblock %}

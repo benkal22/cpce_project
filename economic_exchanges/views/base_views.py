@@ -21,15 +21,12 @@ from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
 
 #Forms lib
-from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerRegistrationForm
+from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerCreateForm
 from django.forms import modelformset_factory
 from ..forms import ProducerForm
 
 
 
-# Account View
-# def profile(request):
-#     return render(request, 'registration/profile.html')
 
 @login_required
 def home(request):
@@ -38,7 +35,7 @@ def home(request):
 # CREATION COMPTE PRODUCTEUR
 class ProducerRegisterView(CreateView):
     template_name = 'registration/register.html'
-    form_class = ProducerRegistrationForm
+    form_class = ProducerCreateForm
     success_url = reverse_lazy('dashboard')
     redirect_field_name = 'next'
     

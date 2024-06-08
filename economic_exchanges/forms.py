@@ -16,14 +16,12 @@ class ContactUsForm(forms.Form):
 class ProducerLoginForm(AuthenticationForm):
     pass
 
-class ProducerRegistrationForm(UserCreationForm):
+class ProducerCreateForm(UserCreationForm):
     sector_label = forms.ChoiceField(choices=[], label="Secteur d'activité*")  
-    product_label = forms.ChoiceField(choices=[], label="Produit*") 
-    # Remplissage initial des choices pour sector_label
-    
+
     class Meta:
         model = Producer
-        fields = ('company_name', 'manager_name','province',
+        fields = ('company_name',  'manager_name', 'sector_label', 'province',
                   'address', 'email', 'phone_number', 'username')
         labels = {
             'company_name': "Nom de l'entreprise*",
@@ -45,28 +43,24 @@ class ProducerRegistrationForm(UserCreationForm):
             }),
         }
 
-    def __init__(self, request=None, *args, **kwargs):
-        self.request = request
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
-        if request:
+        if self.request:
             # Remplissez le champ sector_labels avec les choix disponibles depuis la base de données
             sector_labels_choices = [(label, label) for label in Product.objects.values_list('sector_label', flat=True).distinct()]
             self.fields['sector_label'].choices = sector_labels_choices
-
-            sector_label_choiced = request.GET.get('sector_label')
-           
-
-            product_labels_choices = [(label, label) for label in Product.objects.filter(sector_label=sector_label_choiced).values_list('product_label', flat=True).distinct()]
-            self.fields['product_label'].choices = product_labels_choices
-
-            # Vérifier que 'sector_label_choiced' a une valeur correcte
-            if sector_label_choiced:
-                product_labels_choices = [(label, label) for label in Product.objects.filter(sector_label="ENSEIGNEMENT").values_list('product_label', flat=True).distinct()]
-                self.fields['product_label'].choices = product_labels_choices
-                print("Valeur de 'sector_label' :", sector_label_choiced)
-                print("Type de 'sector_label_choiced' :", type(sector_label_choiced))
-
-
+    
+    def save(self, commit=True):
+        producer = super().save(commit=False)
+        producer.sector_label = self.cleaned_data['sector_label']
+        
+        if commit:
+            producer.save()
+            self.save_m2m()  # Save the many-to-many data for the form
+        
+        return producer
+  
 class ProducerForm(forms.ModelForm):
     product_label = forms.ChoiceField(choices=[], label="Produit*") 
     sector_label = forms.ChoiceField(choices=[], label="Secteur d'activité*")  
@@ -119,16 +113,21 @@ class ProducerForm(forms.ModelForm):
         return cleaned_data
 
 class ProducerEditForm(forms.ModelForm):
+    # sector_label = forms.ChoiceField(choices=[], label="Secteur d'activité*")
+    sector_label = forms.ChoiceField(disabled=True, label="Secteur d'activité*")
     product = forms.ModelMultipleChoiceField(
-        queryset=Product.objects.all(),
+        queryset=Product.objects.none(),
         widget=forms.CheckboxSelectMultiple,
-        label="Produits*"
+        label="Produits*",
+        required=False
     )
-    sector_label = forms.ChoiceField(choices=[], label="Secteur d'activité*")
 
     class Meta:
         model = Producer
-        fields = ['company_name', 'manager_name', 'profile_photo', 'address', 'tax_code', 'nrc', 'nat_id', 'phone_number', 'province', 'sector_label', 'product']
+        fields = [
+            'company_name', 'manager_name', 'profile_photo', 'address', 'tax_code', 
+            'nrc', 'nat_id', 'phone_number', 'province', 'sector_label', 'product'
+        ]
         labels = {
             'company_name': "Nom de l'entreprise*",
             'manager_name': "Nom du propriétaire*",
@@ -140,25 +139,17 @@ class ProducerEditForm(forms.ModelForm):
         }
         widgets = {
             'profile_photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'product': forms.CheckboxSelectMultiple,
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        # Fill sector_label field with choices available from database
         sector_labels_choices = [(label, label) for label in Product.objects.values_list('sector_label', flat=True).distinct()]
         self.fields['sector_label'].choices = sector_labels_choices
-        
-        # Set initial products if instance is already created
-        if self.instance.pk:
-            self.fields['product'].initial = self.instance.product.all()
 
-    def clean_sector_label(self):
-        sector_label = self.cleaned_data.get('sector_label')
-        if Producer.objects.filter(sector_label=sector_label).exclude(pk=self.instance.pk).exists():
-            raise forms.ValidationError(f"Le secteur '{sector_label}' est déjà utilisé par un autre producteur.")
-        return sector_label
+        if self.instance.pk and self.instance.sector_label:
+            product_queryset = Product.objects.filter(sector_label=self.instance.sector_label)
+            self.fields['product'].queryset = product_queryset
+            self.fields['product'].initial = self.instance.product.all()
 
     def save(self, commit=True):
         producer = super().save(commit=False)
@@ -171,30 +162,27 @@ class ProducerEditForm(forms.ModelForm):
         return producer
     
 # class ProducerEditForm(forms.ModelForm):
-#     # edit_producer = forms.BooleanField(widget=forms.HiddenInput, initial=True)
-    
-#     product_label = forms.ChoiceField(choices=[], label="Produit*") 
-#     sector_label = forms.ChoiceField(choices=[], label="Secteur d'activité*")  
-    
+#     product = forms.ModelMultipleChoiceField(
+#         queryset=Product.objects.all(),
+#         widget=forms.CheckboxSelectMultiple,
+#         label="Produits*"
+#     )
+#     sector_label = forms.ChoiceField(choices=[], label="Secteur d'activité*")
+
 #     class Meta:
 #         model = Producer
-#         fields = ['company_name', 'manager_name', 'profile_photo',
-#                   'address', 'tax_code', 'nrc', 'nat_id', 'phone_number', 'province', 'sector_label', 'product_label']
-        
+#         fields = ['company_name', 'manager_name', 'profile_photo', 'address', 'tax_code', 'nrc', 'nat_id', 'phone_number', 'province', 'sector_label', 'product']
 #         labels = {
 #             'company_name': "Nom de l'entreprise*",
 #             'manager_name': "Nom du propriétaire*",
 #             'sector_label': "Secteur d'activité*",
-#             'product_label': "Produit*",
+#             'product': "Produits*",
 #             'address': "Adresse de l'entreprise*",
 #             'phone_number': "Votre numéro de téléphone*",
 #             'province': "Province de votre entreprise*",
 #         }
-        
 #         widgets = {
-#             'profile_photo': forms.ClearableFileInput(attrs={
-#                 'class': 'form-control',
-#             }),
+#             'profile_photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
 #             'product': forms.CheckboxSelectMultiple,
 #         }
 
@@ -205,25 +193,26 @@ class ProducerEditForm(forms.ModelForm):
 #         sector_labels_choices = [(label, label) for label in Product.objects.values_list('sector_label', flat=True).distinct()]
 #         self.fields['sector_label'].choices = sector_labels_choices
         
-#         # Load product_labels if instance is already created
+#         # Set initial products if instance is already created
 #         if self.instance.pk:
-#             product_labels_choices = [(label, label) for label in Product.objects.filter(sector_label=self.instance.sector_label).values_list('product_label', flat=True).distinct()]
-#             self.fields['product_label'].choices = product_labels_choices
-#         else:
-#             self.fields['product_label'].choices = []
+#             self.fields['product'].initial = self.instance.product.all()
 
-#     def clean(self):
-#         cleaned_data = super().clean()
-#         sector_label = cleaned_data.get('sector_label')
-#         product_label = cleaned_data.get('product_label')
+#     def clean_sector_label(self):
+#         sector_label = self.cleaned_data.get('sector_label')
+#         if Producer.objects.filter(sector_label=sector_label).exclude(pk=self.instance.pk).exists():
+#             raise forms.ValidationError(f"Le secteur '{sector_label}' est déjà utilisé par un autre producteur.")
+#         return sector_label
 
-#         if sector_label and product_label:
-#             # Validate that the product_label belongs to the selected sector_label
-#             if not Product.objects.filter(sector_label=sector_label, product_label=product_label).exists():
-#                 self.add_error('product_label', f"Le produit '{product_label}' n'appartient pas au secteur '{sector_label}'.")
+#     def save(self, commit=True):
+#         producer = super().save(commit=False)
+#         producer.sector_label = self.cleaned_data['sector_label']
         
-#         return cleaned_data
-
+#         if commit:
+#             producer.save()
+#             self.save_m2m()  # Save the many-to-many data for the form
+        
+#         return producer
+ 
 class ProducerDeleteForm(forms.ModelForm):
     delete_producer = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     class Meta:

@@ -21,7 +21,7 @@ from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
 
 #Forms lib
-from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerRegistrationForm
+from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerCreateForm
 from django.forms import modelformset_factory
 from ..forms import ProducerForm, ProducerDeleteForm, ProducerEditForm, SettingsForm, PasswordChangeForm
 
@@ -84,22 +84,72 @@ def producer_edit(request, id):
     else:
         form = ProducerEditForm(instance=producer)
 
+    # Pour gérer le chargement dynamique des produits en fonction du secteur d'activité sélectionné
+    if 'sector_label' in request.GET:
+        sector_label = request.GET['sector_label']
+        product_queryset = Product.objects.filter(sector_label=sector_label)
+        form.fields['product'].queryset = product_queryset
+
     return render(request, 'economic_exchanges/producer/producer_edit.html', {
         'form': form,
         'producer': producer,
         'active_tab': active_tab
     })
     
-def producer_create(request):
+# @login_required
+# def producer_edit(request, id):
+#     producer = get_object_or_404(Producer, id=id)
+#     active_tab = request.GET.get('tab', 'edit')
+
+#     if request.method == 'POST':
+#         form = ProducerEditForm(request.POST, request.FILES, instance=producer)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('producer_detail', id=producer.id)
+#     else:
+#         form = ProducerEditForm(instance=producer)
+
+#     return render(request, 'economic_exchanges/producer/producer_edit.html', {
+#         'form': form,
+#         'producer': producer,
+#         'active_tab': active_tab
+#     })
+
+# def producer_create(request):
+#     if request.method == 'POST':
+#         form = ProducerForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('economic_exchanges/producer/producer_list')
+#     else:
+#         form = ProducerForm()
+#     return render(request, 'economic_exchanges/producer/producer_form.html', {'form': form})
+
+@login_required
+def producer_create(request, id):
+    producer = get_object_or_404(Producer, id=id)
+    active_tab = request.GET.get('tab', 'edit')
+
     if request.method == 'POST':
-        form = ProducerForm(request.POST, request.FILES)
+        form = ProducerCreateForm(request.POST, request.FILES, instance=producer)
         if form.is_valid():
             form.save()
-            return redirect('economic_exchanges/producer/producer_list')
+            return redirect('producer_detail', id=producer.id)
     else:
-        form = ProducerForm()
-    return render(request, 'economic_exchanges/producer/producer_form.html', {'form': form})
+        form = ProducerEditForm(instance=producer)
 
+    # Pour gérer le chargement dynamique des produits en fonction du secteur d'activité sélectionné
+    if 'sector_label' in request.GET:
+        sector_label = request.GET['sector_label']
+        product_queryset = Product.objects.filter(sector_label=sector_label)
+        form.fields['product'].queryset = product_queryset
+
+    return render(request, 'registration/register.html', {
+        'form': form,
+        'producer': producer,
+        'active_tab': active_tab
+    })
+ 
 def producer_update_settings(request, id):
     producer = get_object_or_404(Producer, id=id)
     active_tab = request.GET.get('tab', 'settings')
@@ -144,21 +194,23 @@ def home(request):
 
 class ProducerRegisterView(CreateView):
     template_name = 'registration/register.html'
-    form_class = ProducerRegistrationForm
+    form_class = ProducerCreateForm
     success_url = reverse_lazy('dashboard')
     redirect_field_name = 'next'
     
     def get_success_url(self):
+        producer = self.object  # `self.object` est le producteur nouvellement créé
         redirect_to = self.request.GET.get(self.redirect_field_name)
         if redirect_to:
             return redirect_to
-        return super().get_success_url()
+        return reverse('dashboard', args=[producer.pk])
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
+    
 def get_product_labels(request):
     sector_label = request.GET.get('sector_label')
     product_labels = list(Product.objects.filter(sector_label=sector_label).values_list('product_label', flat=True).distinct())
@@ -188,3 +240,8 @@ def dashboard(request, pk):
     return render(request, 'economic_exchanges/dashboard/dashboard.html', {'pk':pk, 'producer': producer})
 
 
+@login_required
+def load_products(request):
+    sector_label = request.GET.get('sector_label')
+    products = Product.objects.filter(sector_label=sector_label).values('id', 'product_label')
+    return JsonResponse(list(products), safe=False)

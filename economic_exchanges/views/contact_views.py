@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 
 
 #Forms lib
-from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerRegistrationForm
+from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerCreateForm
 from django.forms import modelformset_factory
 from ..forms import ProducerForm
 

@@ -1,0 +1,16 @@
+<!-- templates/economic_exchanges/dashboard/dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+<h2>Dashboard for {{ producer.company_name }}</h2>
+<p>Manager: {{ producer.manager_name }}</p>
+<p>Phone: {{ producer.phone_number }}</p>
+<!-- Lien vers le détail du producteur -->
+{% comment %} <a href="{% url 'producer_detail' producer.pk %}">View Profile</a> {% endcomment %}
+<!-- Ajoutez d'autres informations nécessaires -->
+Province {{ province.name }}
+</body>
+</html>

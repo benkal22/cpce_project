@@ -21,9 +21,9 @@ from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
 
 #Forms lib
-from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerCreateForm
-from django.forms import modelformset_factory
-from ..forms import ProducerForm, ProducerDeleteForm, ProducerEditForm, SettingsForm, PasswordChangeForm
+from economic_exchanges.forms.producer_forms import ProducerLoginForm, ProductForm, ProducerCreateForm
+# from django.forms.forms import modelformset_factory
+from ..forms.producer_forms import ProducerForm, ProducerDeleteForm, ProducerEditForm, SettingsForm, PasswordChangeForm
 
 #View producer
 # def producer_home(request):
@@ -96,35 +96,6 @@ def producer_edit(request, id):
         'active_tab': active_tab
     })
     
-# @login_required
-# def producer_edit(request, id):
-#     producer = get_object_or_404(Producer, id=id)
-#     active_tab = request.GET.get('tab', 'edit')
-
-#     if request.method == 'POST':
-#         form = ProducerEditForm(request.POST, request.FILES, instance=producer)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('producer_detail', id=producer.id)
-#     else:
-#         form = ProducerEditForm(instance=producer)
-
-#     return render(request, 'economic_exchanges/producer/producer_edit.html', {
-#         'form': form,
-#         'producer': producer,
-#         'active_tab': active_tab
-#     })
-
-# def producer_create(request):
-#     if request.method == 'POST':
-#         form = ProducerForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('economic_exchanges/producer/producer_list')
-#     else:
-#         form = ProducerForm()
-#     return render(request, 'economic_exchanges/producer/producer_form.html', {'form': form})
-
 @login_required
 def producer_create(request, id):
     producer = get_object_or_404(Producer, id=id)
@@ -209,7 +180,6 @@ class ProducerRegisterView(CreateView):
         kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
-
     
 def get_product_labels(request):
     sector_label = request.GET.get('sector_label')
@@ -238,7 +208,6 @@ def dashboard(request, pk):
     producer = get_object_or_404(Producer, pk=pk)
     # producer = Producer.objects.get(producer=pk)
     return render(request, 'economic_exchanges/dashboard/dashboard.html', {'pk':pk, 'producer': producer})
-
 
 @login_required
 def load_products(request):

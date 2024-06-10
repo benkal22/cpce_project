@@ -34,6 +34,8 @@ urlpatterns = [
     path('dashboard/<int:pk>/', base_views.dashboard, name='dashboard'),
 
     path('products/<int:pk>/', product_views.product_detail, name='product_detail'),
+    path('get_product_labels/', base_views.get_product_labels, name='get_product_labels'),
+    
     
     # Login
     path('accounts/register/', producer_views.ProducerRegisterView.as_view(), name='register'),
@@ -49,12 +51,16 @@ urlpatterns = [
     path('producer/<int:id>/settings/', producer_views.producer_update_settings, name='producer_settings'),
     path('producer/<int:id>/change_password/', producer_views.producer_change_password, name='producer_change_password'),
     path('producer/<int:id>/delete/', producer_views.producer_delete, name='producer_delete'),
-    path('get_product_labels/', producer_views.get_product_labels, name='get_product_labels'),
+    # path('get_product_labels/', producer_views.get_product_labels, name='get_product_labels'),
     path('ajax/load-products/', producer_views.load_products, name='ajax_load_products'),
 
-    path('supplier/', supplier_views.supplier_home, name='supplier-list'),
-    path('supplier/<int:id>/', supplier_views.supplier_detail, name='supplier-detail'),
-    path('supplier/add/', supplier_views.supplier_create, name='supplier-create'),
+    #FOURNISSEURS
+    path('suppliers/', supplier_views.supplier_list, name='supplier-list'),
+    path('suppliers/<int:id>/', supplier_views.supplier_detail, name='supplier-detail'),
+    path('suppliers/new/', supplier_views.SupplierCreateView.as_view(), name='supplier-create'),
+    # path('suppliers/new/', supplier_views.supplier_create, name='supplier-create'),
+    path('suppliers/<int:id>/edit/', supplier_views.supplier_edit, name='supplier-edit'),
+    path('suppliers/<int:id>/delete/', supplier_views.supplier_delete, name='supplier-delete'),
 
     path('client/', client_views.client_home, name='client-list'),
     path('client/comp<int:id>/', client_views.client_company_detail, name='client-company-detail'),
@@ -67,13 +73,8 @@ urlpatterns = [
     path('contact/<int:pk>/', contact_views.contact, name='contact'),   
     path('contact-sent/<int:pk>/', contact_views.contact_sent, name='contact-sent'),
 
-
-    
-
     #Others pages
     path('faq/<int:pk>/', base_views.page_faq, name='faq'),
-    
-
 ]
 
 if settings.DEBUG:

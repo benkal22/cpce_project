@@ -2,22 +2,51 @@
 
 {% block page_title %}
     <div class="pagetitle">
-        <h1>Mes fournisseurs</h1>
+        <h1>{{page_title}}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'dashboard' user.pk %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'dashboard' user.pk %}">{{page_super_title}}</a></li>
                 <!-- <li class="breadcrumb-item">Users</li> -->
-                <li class="breadcrumb-item active">Mes fournisseurs</li>
+                <li class="breadcrumb-item active">{{breadcrumb_title}}</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 {% endblock %}
 {% block content %}
 
-<p>{{ suppliers|length }} fournisseurs en République Démocratique du Congo</p>
+<p>{{ suppliers|length }} fournisseurs</p>
+<a href="{% url 'supplier-create' %}">Ajouter Nouveau fournisseur</a>
+
 <ul>
-        {% for supplier in suppliers %}
-        <li><a href="{% url 'supplier-detail' supplier.id %}">{{supplier.company_name}}</a></li>
-        {% endfor %}
+    {% for supplier in suppliers %}
+    <li>
+        <a href="{% url 'supplier-detail' supplier.id %}">{{ supplier.company_name }}</a>
+        <a href="{% url 'supplier-edit' supplier.id %}">Edit</a>
+        <a href="{% url 'supplier-delete' supplier.id %}">Delete</a>
+    </li>
+    {% endfor %}
 </ul>
+
+<form id="createSupplierForm" method="POST" class="row g-1 needs-validation {{ was_validated }}" action="{% url 'supplier-create' %}" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+        <label for="" class="form-label"> {{field.label_tag}}</label>
+        {{field}}
+        {% if field.errors %}
+            <div class="invalid-feedback">
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div>
+        <p>(Votre mot de passe doit contenir au moins 8 caractères, une lettre en majucusle et un chiffre. Ex.
+            ABCdbe_123)</p>
+
+        <div class="col-12">
+            <button class="btn btn-primary w-100" type="submit">Créer fournisseur</button>
+        </div>
+    </div>
+</form>
 {% endblock %}

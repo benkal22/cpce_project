@@ -236,7 +236,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{% url 'producer_detail' producer.id %}">        
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'producer_detail' user.pk %}">        
                             <i class="bi bi-person"></i>
                             <span>Mon Profile</span>
                             </a>
@@ -305,7 +305,7 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="{% url 'supplier-list' %}">
+                        <a href="{% url 'supplier-detail' user.pk %}">
                             <i class="bi bi-circle"></i><span>Mes fournisseurs</span>
                         </a>
                     </li>
@@ -368,7 +368,7 @@
             <li class="nav-heading">Liens rapides</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'producer_detail' user.id %}">
+                <a class="nav-link collapsed" href="{% url 'producer_detail' user.pk %}">
                     <i class="bi bi-person"></i>
                     <span>Mon entreprise</span>
                 </a>

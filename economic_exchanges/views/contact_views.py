@@ -10,9 +10,9 @@ from django.core.mail import send_mail
 
 
 #Forms lib
-from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerCreateForm
-from django.forms import modelformset_factory
-from ..forms import ProducerForm
+from economic_exchanges.forms.contact_forms import ContactUsForm
+# from django.forms import modelformset_factory
+# from ..forms.forms import ProducerForm
 
 #Contact Form
 def contact(request, pk):

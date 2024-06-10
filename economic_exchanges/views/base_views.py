@@ -12,8 +12,8 @@ from economic_exchanges.models.purchases import Purchase
 from economic_exchanges.models.sales import Sale
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.mail import send_mail
-from django.contrib.auth import login, authenticate, logout
+# from django.core.mail import send_mail
+# from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse_lazy, reverse
@@ -21,11 +21,9 @@ from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
 
 #Forms lib
-from economic_exchanges.forms import ContactUsForm, ProducerLoginForm, ProductForm, ProducerCreateForm
-from django.forms import modelformset_factory
-from ..forms import ProducerForm
-
-
+from economic_exchanges.forms.producer_forms import ProducerLoginForm, ProducerCreateForm
+# from django.forms import modelformset_factory
+# from ..forms.forms import ProducerForm
 
 
 @login_required
